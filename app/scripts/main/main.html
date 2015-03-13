@@ -1,0 +1,82 @@
+<div data-ng-cloak>
+  <div class="col-md-4 col-md-offset-2 well">
+    <h3 class="text-center">What about that runtime?</h3>
+    <hr/>
+    <p class="text-justify">
+      This web app provides a way to run a <strong>Kevoree JavaScript</strong> node directly in your browser.
+      It acts pretty much as the other Kevoree runtimes but considering that you are in a browser environment
+      you will face some <strong>limitations</strong>, but will also be able to give your Kevoree component a
+      <strong>UI frontend</strong>!
+    </p>
+    <hr/>
+    <h4 class="text-left">Browser limitations:</h4>
+    <p class="text-justify">
+      You cannot run any <strong>server</strong> in a browser. It means that you will have to connect this node
+      platform to another Kevoree <strong>group</strong>. Because, it runs in the browser, a good way to
+      communicate in real-time is by using <strong>Web Sockets</strong>, thought this runtime uses
+      Kevoree's <strong>WSGroup</strong> by default.
+    </p>
+    <hr/>
+    <h4 class="text-left">Kevoree Web Editor:</h4>
+    <p class="text-justify">
+      In order to check if this runtime will be able to connect to another WSGroup, you can test the connection
+      by using the
+      <a href="http://editor.kevoree.org" target="_blank">
+        Kevoree Web Editor <i class="fa fa-external-link"></i>
+      </a>
+      and do:
+    </p>
+    <p class="text-center">
+      <strong>File > Open from node</strong>
+    </p>
+    <p class="text-justify">
+      Enter your WSGroup connection information in the form, then click <strong>Pull model</strong>.
+    </p>
+  </div>
+  <div class="col-md-3 col-md-offset-1 well">
+    <h3 class="text-center">Start my own node</h3>
+    <hr/>
+    <div class="alert alert-danger" data-ng-show="runtimeError">
+      <button type="button" class="close" data-ng-click="closeError()"><span>&times;</span></button>
+      {{runtimeError}}
+    </div>
+    <form name="form" class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="runtimeNodeName">Node name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="runtimeNodeName" id="runtimeNodeName" placeholder="Enter a node name" data-ng-model="runtime.nodeName" data-ui-keypress="{13:'start()'}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="groupName" class="col-sm-4 control-label">Group name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="groupName" data-ng-model="runtime.groupName" placeholder="Enter a group name" data-ui-keypress="{13:'start()'}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="runtimeMasterGroupPort">Master group port</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="runtimeMasterGroupPort" id="runtimeMasterGroupPort" placeholder="Enter your master group port" data-ng-model="runtime.masterGroupPort" data-ui-keypress="{13:'start()'}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="runtimeMasterNodeName">Master node name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="runtimeMasterNodeName" id="runtimeMasterNodeName" placeholder="Enter your master node name" data-ng-model="runtime.masterNodeName" data-ui-keypress="{13:'start()'}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="runtimeMasterNodeIP">Master node IP</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="runtimeMasterNodeIP" id="runtimeMasterNodeIP" placeholder="Enter your master node IP" data-ng-model="runtime.masterNodeIP" data-ui-keypress="{13:'start()'}">
+        </div>
+      </div>
+      <hr/>
+      <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+          <button type="button" class="btn btn-default" data-ng-click="start()">Start my node</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
