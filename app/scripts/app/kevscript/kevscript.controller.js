@@ -8,15 +8,16 @@
  * Controller of the browserApp kevscript editor page
  */
 angular.module('browserApp')
-  .controller('KevScriptCtrl', function ($scope, $modal, $timeout, runtime) {
+  .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore) {
     $scope.kevscript =
       '// write your kevscript here' + '\n' +
       'add node0: JavascriptNode' + '\n';
 
+    var editor = null;
     function saveFileCmd() {
       $modal
         .open({
-          templateUrl: 'scripts/kevscript/kevscript.modal.html',
+          templateUrl: 'scripts/app/kevscript/kevscript.modal.html',
           size: 'sm',
           scope: $scope,
           controller: function ($scope, $modalInstance) {
@@ -65,7 +66,9 @@ angular.module('browserApp')
           }
         })
         .result.finally(function () {
-          //editor.focus();
+          if (editor) {
+            editor.focus();
+          }
         });
     }
 
@@ -81,8 +84,22 @@ angular.module('browserApp')
       theme: 'kevscript'
     };
 
+    $scope.editorLoaded = function (_editor) {
+      editor = _editor;
+    };
+
     $scope.start = function () {
-      runtime.start($scope.runtime.nodeName);
+      if (kCore.isStarted()) {
+
+      } else {
+        kCore.start($scope.runtime.nodeName, function (err) {
+          if (err) {
+
+          } else {
+            $state.go('runtime');
+          }
+        });
+      }
     };
   });
 

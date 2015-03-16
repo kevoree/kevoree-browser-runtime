@@ -24,7 +24,9 @@
     <![endif]-->
 
     <div data-ui-view="navbar"></div>
-    <div data-ui-view="content"></div>
+    <div class="container-fluid">
+      <div data-ui-view="content" class="row"></div>
+    </div>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -48,18 +50,27 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/app.constants.js"></script>
-    <script src="scripts/navbar/navbar.controller.js"></script>
-    <script src="scripts/main/main.js"></script>
-    <script src="scripts/main/main.controller.js"></script>
-    <script src="scripts/kevscript/kevscript.js"></script>
-    <script src="scripts/kevscript/kevscript.controller.js"></script>
-    <script src="scripts/util/form.directive.js"></script>
-    <script src="scripts/kevoree/runtime.service.js"></script>
-    <script src="scripts/kevoree/kevscript.service.js"></script>
-    <script src="scripts/util/codemirror/kevs-hint.js"></script>
-    <script src="scripts/util/codemirror/kevs-parser.js"></script>
+    <script src="scripts/app/app.js"></script>
+    <script src="scripts/app/app.constants.js"></script>
+    <script src="scripts/app/navbar/navbar.controller.js"></script>
+    <script src="scripts/app/main/main.js"></script>
+    <script src="scripts/app/main/main.controller.js"></script>
+    <script src="scripts/app/kevscript/kevscript.js"></script>
+    <script src="scripts/app/kevscript/kevscript.controller.js"></script>
+    <script src="scripts/app/runtime/runtime.js"></script>
+    <script src="scripts/app/runtime/runtime.controller.js"></script>
+    <script src="scripts/app/runtime/dashboard/dashboard.js"></script>
+    <script src="scripts/app/runtime/dashboard/dashboard.controller.js"></script>
+    <script src="scripts/app/runtime/logs/logs.js"></script>
+    <script src="scripts/app/runtime/logs/logs.controller.js"></script>
+    <script src="scripts/components/util/form.directive.js"></script>
+    <script src="scripts/components/kevoree/core.service.js"></script>
+    <script src="scripts/components/kevoree/kevscript.service.js"></script>
+    <script src="scripts/components/kevoree/bootstrapper.service.js"></script>
+    <script src="scripts/components/kevoree/resolver.service.js"></script>
+    <script src="scripts/components/kevoree/logger.service.js"></script>
+    <script src="scripts/components/util/codemirror/kevs-hint.js"></script>
+    <script src="scripts/components/util/codemirror/kevs-parser.js"></script>
     <!-- endbuild -->
   </body>
 </html>

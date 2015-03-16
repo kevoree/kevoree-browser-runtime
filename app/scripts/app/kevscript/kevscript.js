@@ -8,7 +8,7 @@ angular.module('browserApp')
         url: '/kevscript',
         views: {
           'content@': {
-            templateUrl: 'scripts/kevscript/kevscript.html',
+            templateUrl: 'scripts/app/kevscript/kevscript.html',
             controller: 'KevScriptCtrl'
           }
         }

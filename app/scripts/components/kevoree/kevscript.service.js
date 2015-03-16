@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('browserApp')
-  .factory('KevScript', function (GROUP_NAME, MASTER_NODE_NAME, MASTER_NODE_IP, MASTER_GROUP_PORT) {
+  .factory('kScript', function (GROUP_NAME, MASTER_NODE_NAME, MASTER_NODE_IP, MASTER_GROUP_PORT) {
     var kevs = new KevoreeKevscript();
 
     return {

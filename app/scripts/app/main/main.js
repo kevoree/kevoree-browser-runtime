@@ -8,7 +8,7 @@ angular.module('browserApp')
         url: '/',
         views: {
           'content@': {
-            templateUrl: 'scripts/main/main.html',
+            templateUrl: 'scripts/app/main/main.html',
             controller: 'MainCtrl'
           }
         }

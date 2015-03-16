@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{*,**/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/{,**/}*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= yeoman.app %>/{*,**/}*.html',
+          '<%= yeoman.app %>/{,**/}*.html',
           '.tmp/styles/{,**/}*.css',
           '<%= yeoman.app %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -188,9 +188,9 @@ module.exports = function (grunt) {
     filerev: {
       dist: {
         src: [
-          '<%= yeoman.dist %>/scripts/{*,**/}*.js',
-          '<%= yeoman.dist %>/styles/{*,**/}*.css',
-          '<%= yeoman.dist %>/images/{*,**/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= yeoman.dist %>/scripts/{,**/}*.js',
+          '<%= yeoman.dist %>/styles/{,**/}*.css',
+          '<%= yeoman.dist %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
       }
@@ -217,8 +217,8 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{*,**/}*.html'],
-      css: ['<%= yeoman.dist %>/styles/{*,**/}*.css'],
+      html: ['<%= yeoman.dist %>/{,**/}*.html'],
+      css: ['<%= yeoman.dist %>/styles/{,**/}*.css'],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>',
@@ -288,7 +288,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'scripts/{*,**/}*.html'],
+          src: ['*.html', 'scripts/{,**/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -328,7 +328,7 @@ module.exports = function (grunt) {
             '*.html',
             'scripts/{,**/}*.html',
             'images/{,**/}*.{webp}',
-            'styles/fonts/{*,**/}*.*'
+            'styles/fonts/{,**/}*.*'
           ]
         }, {
           expand: true,

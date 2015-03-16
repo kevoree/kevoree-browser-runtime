@@ -7,15 +7,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a id="navbar-logo" class="navbar-brand"><img src="images/kevoree.png"></a>
+      <a id="navbar-logo" class="navbar-brand"><img src="../../../images/kevoree.png"></a>
     </div>
     <ul class="nav navbar-left navbar-nav navbar-collapse collapse" data-collapse="isCollapsed">
-      <li data-ng-class="{active: $state.includes('main')}">
+      <li data-ng-class="{active: $state.includes('main') || $state.includes('runtime')}">
         <a data-ui-sref="main">Browser Runtime</a>
       </li>
       <li data-ng-class="{active: $state.includes('kevscript')}">
         <a data-ui-sref="kevscript">Start from KevScript</a>
       </li>
     </ul>
+    <!--<ul class="nav navbar-right" data-ng-show="isRuntimeStarted()">-->
+      <!--<li>-->
+        <!--<a>{{nodeName}}</a>-->
+      <!--</li>-->
+    <!--</ul>-->
   </div>
 </div>

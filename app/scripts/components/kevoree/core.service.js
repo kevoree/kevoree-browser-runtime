@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('browserApp')
-  .factory('runtime', function (KevScript) {
+  .factory('kCore', function (kLogger, kBootstrapper, MODULES_PATH) {
 
-    function BrowserRuntime() {
+    function BrowserCore() {
       this.started = false;
-      this.logger = new KevoreeCommons.KevoreeLogger('BrowserRuntime');
-      this.core = new KevoreeCore('_fake_dir_', this.logger);
+      this.core = new KevoreeCore(MODULES_PATH, kLogger);
+      this.core.setBootstrapper(kBootstrapper);
 
       this.core.on('stopped', function () {
         console.log('core stopped');
@@ -15,8 +15,13 @@ angular.module('browserApp')
       this.core.on('error', function (err) {
         if (this.deployCallback) {
           this.deployCallback(err);
+          this.deployCallback = null;
         }
-        console.err(err.stack);
+
+        if (this.startCallback) {
+          this.startCallback();
+          this.startCallback = null;
+        }
       }.bind(this));
 
       this.core.on('adaptationError', function (err) {
@@ -29,33 +34,47 @@ angular.module('browserApp')
         console.err(err.stack);
       }.bind(this));
 
+      this.core.on('deployError', function (err) {
+        if (this.deployCallback) {
+          this.deployCallback(err);
+          this.deployCallback = null;
+        }
+      }.bind(this));
+
       this.core.on('deployed', function () {
         if (this.deployCallback) {
           this.deployCallback();
+          this.deployCallback = null;
         }
       }.bind(this));
 
       this.core.on('started', function () {
         if (this.startCallback) {
           this.startCallback();
+          this.startCallback = null;
         }
       }.bind(this));
     }
 
-    BrowserRuntime.prototype.start = function (nodeName, callback) {
+    BrowserCore.prototype.start = function (nodeName, callback) {
       this.started = true;
       this.startCallback = callback;
       this.core.start(nodeName);
     };
 
-    BrowserRuntime.prototype.stop = function () {
+    BrowserCore.prototype.stop = function () {
       this.core.stop();
     };
 
-    BrowserRuntime.prototype.deploy = function (model, callback) {
+    BrowserCore.prototype.deploy = function (model, callback) {
+
       this.deployCallback = callback;
       this.core.deploy(model);
     };
 
-    return new BrowserRuntime();
+    BrowserCore.prototype.isStarted = function () {
+      return this.started;
+    };
+
+    return new BrowserCore();
   });

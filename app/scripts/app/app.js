@@ -28,7 +28,7 @@ angular
         abstract: true,
         views: {
           'navbar@': {
-            templateUrl: 'scripts/navbar/navbar.html',
+            templateUrl: 'scripts/app/navbar/navbar.html',
             controller: 'NavBarCtrl'
           }
         }

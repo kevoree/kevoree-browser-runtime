@@ -8,7 +8,12 @@
  * Controller of the browserApp main content div
  */
 angular.module('browserApp')
-  .controller('MainCtrl', function ($scope, $timeout, runtime, KevScript, GROUP_NAME, MASTER_GROUP_PORT, MASTER_NODE_NAME, MASTER_NODE_IP) {
+  .controller('MainCtrl', function ($scope, $state, $timeout, kCore, kScript, GROUP_NAME, MASTER_GROUP_PORT, MASTER_NODE_NAME, MASTER_NODE_IP) {
+    if (kCore.isStarted()) {
+      $state.go('runtime');
+      return;
+    }
+
     $scope.runtime = {
       groupName:       GROUP_NAME,
       masterGroupPort: MASTER_GROUP_PORT,
@@ -17,29 +22,26 @@ angular.module('browserApp')
     };
 
     function runtimeError(msg) {
-      runtime.stop();
+      kCore.stop();
       $scope.runtimeError = msg;
     }
 
     $scope.start = function () {
       if ($scope.runtime.nodeName) {
         $scope.runtimeError = null;
-        runtime.start($scope.runtime.nodeName, function (err) {
-          console.log('started');
+        kCore.start($scope.runtime.nodeName, function (err) {
           if (err) {
             runtimeError(err.message);
 
           } else {
-            var kevs = KevScript.defaultModel($scope.runtime);
-            console.log('==== Bootstrap model ====');
-            console.log(kevs);
-            console.log('=========================');
-            KevScript.parse(kevs, function (err, model) {
+            $state.go('dashboard');
+            var kevs = kScript.defaultModel($scope.runtime);
+            kScript.parse(kevs, function (err, model) {
               if (err) {
                 runtimeError(err.message);
 
               } else {
-                runtime.deploy(model, function (err) {
+                kCore.deploy(model, function (err) {
                   if (err) {
                     runtimeError(err.message);
 
