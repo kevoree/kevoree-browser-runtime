@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/kevoree-core/browser/kevoree-core.js',
       'bower_components/kevoree-commons/browser/kevoree-commons.js',
       'bower_components/kevoree-kevscript/browser/kevoree-kevscript.js',
+      'bower_components/moment/moment.js',
+      'bower_components/eventEmitter/EventEmitter.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

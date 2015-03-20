@@ -3,7 +3,7 @@
 
 // # Globbing
 // for performance reasons we're only matching one level down:
-// 'test/spec/{,**/}*.js'
+// 'test/spec/**/*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
@@ -34,14 +34,14 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,**/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/**/*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
       },
       jsTest: {
-        files: ['test/spec/{,**/}*.js'],
+        files: ['test/spec/**/*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
       styles: {
@@ -119,14 +119,14 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/scripts/{,**/}*.js'
+          '<%= yeoman.app %>/scripts/**/*.js'
         ]
       },
       test: {
         options: {
           jshintrc: 'test/.jshintrc'
         },
-        src: ['test/spec/{,**/}*.js']
+        src: ['test/spec/**/*.js']
       }
     },
 
@@ -188,7 +188,7 @@ module.exports = function (grunt) {
     filerev: {
       dist: {
         src: [
-          '<%= yeoman.dist %>/scripts/{,**/}*.js',
+          '<%= yeoman.dist %>/scripts/**/*.js',
           '<%= yeoman.dist %>/styles/{,**/}*.css',
           '<%= yeoman.dist %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'

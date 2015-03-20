@@ -10,10 +10,11 @@
 angular.module('browserApp')
   .controller('MainCtrl', function ($scope, $state, $timeout, kCore, kScript, GROUP_NAME, MASTER_GROUP_PORT, MASTER_NODE_NAME, MASTER_NODE_IP) {
     if (kCore.isStarted()) {
-      $state.go('runtime');
+      $state.go('dashboard');
       return;
     }
 
+    $scope.processing = false;
     $scope.runtime = {
       groupName:       GROUP_NAME,
       masterGroupPort: MASTER_GROUP_PORT,
@@ -21,44 +22,33 @@ angular.module('browserApp')
       masterNodeIP:    MASTER_NODE_IP
     };
 
-    function runtimeError(msg) {
-      kCore.stop();
-      $scope.runtimeError = msg;
-    }
-
     $scope.start = function () {
-      if ($scope.runtime.nodeName) {
-        $scope.runtimeError = null;
-        kCore.start($scope.runtime.nodeName, function (err) {
-          if (err) {
-            runtimeError(err.message);
-
-          } else {
-            $state.go('dashboard');
+      if (!$scope.processing) {
+        if ($scope.runtime.nodeName) {
+          $scope.error = null;
+          $scope.processing = true;
+          kCore.start($scope.runtime.nodeName, function () {
             var kevs = kScript.defaultModel($scope.runtime);
             kScript.parse(kevs, function (err, model) {
               if (err) {
-                runtimeError(err.message);
+                $scope.error = err.message;
+                $scope.processing = false;
+                $scope.$apply();
 
               } else {
-                kCore.deploy(model, function (err) {
-                  if (err) {
-                    runtimeError(err.message);
-
-                  } else {
-                    console.log('CAFE!');
-                  }
-                });
+                kCore.deploy(model);
+                $state.go('logs');
               }
             });
-          }
-        });
-      } else {
-        runtimeError('You must give a node name');
+
+          });
+        } else {
+          $scope.error = 'You must give a node name';
+        }
       }
     };
 
     $scope.closeError = function () {
-      $scope.runtimeError = null;
+      $scope.error = null;
     };
   });

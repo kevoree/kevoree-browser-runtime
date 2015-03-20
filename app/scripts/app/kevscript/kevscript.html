@@ -1,25 +1,32 @@
 <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well" data-ng-cloak>
-  <div class="row-fluid clearfix">
-    <div class="col-xs-8">
+  <div class="row-fluid clearfix" data-ng-hide="isStarted">
+    <div class="col-xs-6">
       <h5>Write a <strong>KevScript</strong> and start from it:</h5>
     </div>
     <div class="col-xs-offset-8">
-      <button class="btn btn-default pull-right">Upload a KevScript &nbsp;<i class="fa fa-upload"></i></button>
+      <button class="btn btn-default pull-right" data-ng-click="uploadKevscript()">Upload a KevScript &nbsp;<i class="fa fa-upload"></i></button>
     </div>
   </div>
+  <div class="alert alert-danger" data-ng-show="parseError" style="margin-top: 20px">
+    <button type="button" class="close" data-ng-click="closeParseError()"><span>&times;</span></button>
+    {{parseError}}
+  </div>
   <div class="row-fluid">
-    <div class="row-fluid">
-      <div id="kevscript-editor" data-ui-codemirror="{onLoad: editorLoaded}" data-ui-codemirror-opts="editorOptions" data-ng-model="kevscript"></div>
-    </div>
+    <div id="kevscript-editor" data-ui-codemirror="{onLoad: editorLoaded}" data-ui-codemirror-opts="editorOptions" data-ng-model="kevscript"></div>
   </div>
   <div class="row-fluid clearfix">
     <div class="col-lg-offset-8 col-md-offset-7 col-sm-offset-6">
-      <div class="input-group pull-right">
-        <input type="text" class="form-control" data-ng-model="runtime.nodeName" placeholder="Enter a node name" data-ui-keypress="{13: 'start()'}">
+      <div class="alert alert-danger" data-ng-show="runtimeError">
+        <button type="button" class="close" data-ng-click="closeRuntimeError()"><span>&times;</span></button>
+        {{runtimeError}}
+      </div>
+      <div class="input-group pull-right" data-ng-hide="isStarted">
+        <input type="text" class="form-control" data-ng-model="runtime.nodeName" placeholder="Enter a node name" data-ui-keypress="{13: 'start()'}" data-ng-disabled="processing">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button" data-ng-click="start()">Start from KevScript</button>
+          <button class="btn btn-default" type="button" data-ng-click="start()" data-ng-disabled="processing">Start from KevScript <i class="fa fa-cog fa-spin" data-ng-show="processing"></i></button>
         </span>
       </div>
     </div>
   </div>
 </div>
+<input id="kevscript-upload" type="file" class="hide" data-ng-model="kevscriptFile">

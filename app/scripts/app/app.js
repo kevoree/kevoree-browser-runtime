@@ -33,4 +33,19 @@ angular
           }
         }
       });
+  })
+  .provider('runtimeStates', function ($stateProvider) {
+    var states = {};
+    this.$get = function () {
+      return {
+        state: function (name, state) {
+          states[name] = 'defined';
+          return $stateProvider.state(name, state);
+        },
+
+        has: function (name) {
+          return typeof states[name] !== 'undefined';
+        }
+      }
+    }
   });

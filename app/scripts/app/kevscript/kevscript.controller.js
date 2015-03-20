@@ -8,10 +8,26 @@
  * Controller of the browserApp kevscript editor page
  */
 angular.module('browserApp')
-  .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore) {
-    $scope.kevscript =
-      '// write your kevscript here' + '\n' +
-      'add node0: JavascriptNode' + '\n';
+  .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore, kScript) {
+    $scope.isStarted = kCore.isStarted();
+    $scope.processing = false;
+    $scope.runtime = {
+      nodeName: null
+    };
+
+    if (kCore.isStarted()) {
+      try {
+        $scope.kevscript =
+          '// the current KevScript equivalent of your runtime state is:\n' +
+          kScript.parseModel(kCore.getCurrentModel());
+      } catch (err) {
+        $scope.kevscript = '// wait for the runtime to complete its deployment';
+      }
+    } else {
+      $scope.kevscript =
+        '// write your kevscript here' + '\n' +
+        'add node0: JavascriptNode' + '\n';
+    }
 
     var editor = null;
     function saveFileCmd() {
@@ -88,17 +104,49 @@ angular.module('browserApp')
       editor = _editor;
     };
 
+    $scope.uploadKevscript = function () {
+      var kevscriptUpload = angular.element('#kevscript-upload');
+      kevscriptUpload.on('change', function (event) {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          $scope.kevscript = editor.setValue(reader.result);
+        };
+        reader.readAsBinaryString(event.target.files[0]);
+      });
+      kevscriptUpload.trigger('click');
+    };
+
+    $scope.closeParseError = function () {
+      $scope.parseError = null;
+    };
+
+    $scope.closeRuntimeError = function () {
+      $scope.runtimeError = null;
+    };
+
     $scope.start = function () {
-      if (kCore.isStarted()) {
+      if (!$scope.processing) {
+        if ($scope.runtime.nodeName) {
+          $scope.runtimeError = null;
+          $scope.parseError = null;
+          $scope.processing = true;
+          kCore.start($scope.runtime.nodeName, function () {
+            kScript.parse($scope.kevscript, function (err, model) {
+              if (err) {
+                console.log('KevScript parse error:', err.message);
+                $scope.parseError = err.message;
+                $scope.processing = false;
+                $scope.$apply();
 
-      } else {
-        kCore.start($scope.runtime.nodeName, function (err) {
-          if (err) {
-
-          } else {
-            $state.go('runtime');
-          }
-        });
+              } else {
+                kCore.deploy(model);
+                $state.go('logs');
+              }
+            });
+          });
+        } else {
+          $scope.runtimeError = 'You must give a node name';
+        }
       }
     };
   });

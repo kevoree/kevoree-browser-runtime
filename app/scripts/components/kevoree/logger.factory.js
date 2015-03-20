@@ -7,6 +7,7 @@ angular.module('browserApp')
 
       construct: function () {
         this.logs = [];
+        this.emitter = new EventEmitter();
       },
 
       info: function (tag, msg) {
@@ -16,7 +17,7 @@ angular.module('browserApp')
           msg: msg,
           time: new Date()
         });
-        this._super(tag, msg);
+        this.emitter.emitEvent('info', [tag, msg]);
       },
 
       warn: function (tag, msg) {
@@ -26,7 +27,7 @@ angular.module('browserApp')
           msg: msg,
           time: new Date()
         });
-        this._super(tag, msg);
+        this.emitter.emitEvent('warn', [tag, msg]);
       },
 
       debug: function (tag, msg) {
@@ -36,7 +37,7 @@ angular.module('browserApp')
           msg: msg,
           time: new Date()
         });
-        this._super(tag, msg);
+        this.emitter.emitEvent('debug', [tag, msg]);
       },
 
       error: function (tag, msg) {
@@ -46,7 +47,23 @@ angular.module('browserApp')
           msg: msg,
           time: new Date()
         });
-        this._super(tag, msg);
+        this.emitter.emitEvent('error', [tag, msg]);
+      },
+
+      on: function (event, callback) {
+        this.emitter.on(event, callback);
+      },
+
+      once: function (event, callback) {
+        this.emitter.once(event, callback);
+      },
+
+      off: function (event, callback) {
+        this.emitter.off(event, callback);
+      },
+
+      clean: function () {
+        this.logs.length = 0;
       }
     });
 

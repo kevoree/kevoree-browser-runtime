@@ -1,5 +1,5 @@
 <div data-ng-cloak>
-  <div class="col-xs-3 col-md-2 sidebar">
+  <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-pills nav-stacked nav-sidebar">
       <li data-ng-class="{active: $state.includes('dashboard')}">
         <a data-ui-sref="dashboard">Dashboard: <strong>{{nodeName}}</strong></a>
@@ -7,7 +7,12 @@
       <li data-ng-class="{active: $state.includes('logs')}">
         <a data-ui-sref="logs">Logs</a>
       </li>
+      <li data-ng-class="{active: $state.includes(instance.name)}" data-ng-repeat="instance in instances">
+        <a data-ui-sref="{{ instance.name }}">{{ instance.name }}</a>
+      </li>
     </ul>
   </div>
-  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" data-ui-view></div>
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="well" data-ui-view></div>
+  </div>
 </div>

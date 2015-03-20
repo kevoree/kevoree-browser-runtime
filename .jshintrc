@@ -18,9 +18,13 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
+    "JSZip": false,
+    "moment": false,
     "angular": false,
+    "JSZipUtils": false,
     "CodeMirror": false,
     "KevoreeCore": false,
+    "EventEmitter": false,
     "KevoreeCommons": false,
     "KevoreeKevscript": false
   }
