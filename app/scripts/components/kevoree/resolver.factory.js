@@ -7,7 +7,8 @@ angular.module('browserApp')
         KevoreeResolver.resolve(deployUnit)
           .then(function (data) {
             // TODO change that so that it protects globals
-            eval(data);
+            eval(data); /* jshint ignore:line */
+            console.log(deployUnit.name+'@'+deployUnit.version+' loaded');
             var Class = require(deployUnit.name);
             callback(null, Class);
           }, function (err) {

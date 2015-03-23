@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('browserApp')
   .factory('kCache', function () {
 

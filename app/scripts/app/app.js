@@ -46,6 +46,6 @@ angular
         has: function (name) {
           return typeof states[name] !== 'undefined';
         }
-      }
-    }
+      };
+    };
   });
