@@ -161,6 +161,10 @@ angular.module('browserApp')
 
       instancepath: function (stream, state) {
         var i;
+        var str = stream.current();
+        var dotIndex = str.lastIndexOf('.');
+        var instPath = str;
+
         switch (state.currentStatement) {
           case 'attach':
           case 'detach':
@@ -170,13 +174,8 @@ angular.module('browserApp')
             return 'instancepath';
 
           case 'set':
-          case 'bind':
-          case 'unbind':
             if (state.varList.length > 0) {
               for (i=0; i < state.varList.length; i++) {
-                var str = stream.current();
-                var dotIndex = str.lastIndexOf('.');
-                var instPath = str;
                 if (dotIndex !== -1) {
                   instPath = str.substr(0, dotIndex);
                 }
@@ -185,6 +184,27 @@ angular.module('browserApp')
                 }
               }
             }
+            return 'error';
+
+          case 'bind':
+          case 'unbind':
+            if (state.expect.length === 1) {
+              if (str.split('.').length !== 3) {
+                // component instance cannot be less that a.b.c
+                return 'error';
+              }
+            }
+            if (state.varList.length > 0) {
+              for (i=0; i < state.varList.length; i++) {
+                if (dotIndex !== -1) {
+                  instPath = str.substr(0, dotIndex);
+                }
+                if (instPath === state.varList[i]) {
+                  return 'instancepath';
+                }
+              }
+            }
+
             return 'error';
 
           case 'network':
@@ -211,7 +231,7 @@ angular.module('browserApp')
         return null;
       },
 
-      comment: function (stream, state) {
+      comment: function () {
         return 'comment';
       }
     };
