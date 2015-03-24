@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .config(function () {
     CodeMirror.registerHelper('hint', 'kevscript', function (cm) {

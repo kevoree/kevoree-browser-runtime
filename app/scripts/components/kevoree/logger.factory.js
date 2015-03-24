@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .factory('kLogger', function (APP_NAME) {
     var BrowserLogger = KevoreeCommons.KevoreeLogger.extend({

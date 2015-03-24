@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .service('KevoreeResolver', function ($http, $q, kCache, NPM_REGISTRY_URL) {
     return {

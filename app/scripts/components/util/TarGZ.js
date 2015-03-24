@@ -1,8 +1,7 @@
-/* jshint ignore:start */
 var TarGZ = (function () {
   function TarGZ() {}
 
-// Load and parse archive, calls onload after loading all files.
+  // Load and parse archive, calls onload after loading all files.
   TarGZ.load = function(url, onload, onstream, onerror) {
     var o = new TarGZ();
     o.onload = onload;
@@ -12,8 +11,8 @@ var TarGZ = (function () {
     return o;
   };
 
-// Streams an archive from the given url, calling onstream after loading each file in archive.
-// Calls onload after loading all files.
+  // Streams an archive from the given url, calling onstream after loading each file in archive.
+  // Calls onload after loading all files.
   TarGZ.stream = function(url, onstream, onload, onerror) {
     var o = new TarGZ();
     o.onload = onload;
@@ -1098,11 +1097,11 @@ var TarGZ = (function () {
       zip_inflate_data = null; // G.C.
       if (onstream) onstream(h);
       return h;
-    }
+    };
     var final_inflate = function(str, h, onstream) {
       final_data = true;
       continue_inflate(str, h, onstream);
-    }
+    };
 
     this.inflate = function(str,h,onstream) {
       start_inflate(h);
@@ -1115,4 +1114,3 @@ var TarGZ = (function () {
 
   return TarGZ;
 })();
-/* jshint ignore:end */

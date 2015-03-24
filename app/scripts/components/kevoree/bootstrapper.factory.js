@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .factory('kBootstrapper', function (kResolver, kLogger) {
     var BrowserBootstrapper = KevoreeCommons.Bootstrapper.extend({

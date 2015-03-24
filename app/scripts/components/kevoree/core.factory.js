@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .factory('kCore', function ($interval, kLogger, kBootstrapper, MODULES_PATH) {
 

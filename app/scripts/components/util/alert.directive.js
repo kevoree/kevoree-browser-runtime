@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('browserApp')
   .directive('fileread', [function () {
     return {
