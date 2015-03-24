@@ -242,7 +242,7 @@ var TarGZ = (function () {
       };
       xhr.open('GET', url, true);
       xhr.overrideMimeType("text/plain; charset=x-user-defined");
-      xhr.setRequestHeader("Content-Type", "text/plain");
+      xhr.setRequestHeader('Accept', '*/*');
       xhr.send(null);
     },
 
