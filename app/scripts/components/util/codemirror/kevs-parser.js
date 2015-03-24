@@ -16,10 +16,6 @@ angular.module('browserApp')
       version:        /[a-zA-Z0-9._-]+/
     };
 
-    function startsWith(txt, prefix) {
-      return prefix.indexOf(txt) === 0;
-    }
-
     var statements = {
       repo: function (stream, state) {
         state.expect = ['string'];
@@ -164,6 +160,7 @@ angular.module('browserApp')
       },
 
       instancepath: function (stream, state) {
+        var i;
         switch (state.currentStatement) {
           case 'attach':
           case 'detach':
@@ -176,8 +173,25 @@ angular.module('browserApp')
           case 'bind':
           case 'unbind':
             if (state.varList.length > 0) {
-              for (var i=0; i < state.varList.length; i++) {
-                if (startsWith(stream.current(), state.varList[i])) {
+              for (i=0; i < state.varList.length; i++) {
+                var str = stream.current();
+                var dotIndex = str.lastIndexOf('.');
+                var instPath = str;
+                if (dotIndex !== -1) {
+                  instPath = str.substr(0, dotIndex);
+                }
+                if (instPath === state.varList[i]) {
+                  return 'instancepath';
+                }
+              }
+            }
+            return 'error';
+
+          case 'network':
+            if (state.varList.length > 0) {
+              for (i=0; i < state.varList.length; i++) {
+                var nets = stream.current().split('.');
+                if (nets.length === 3 && nets[0] === state.varList[i]) {
                   return 'instancepath';
                 }
               }
@@ -197,7 +211,7 @@ angular.module('browserApp')
         return null;
       },
 
-      comment: function () {
+      comment: function (stream, state) {
         return 'comment';
       }
     };
