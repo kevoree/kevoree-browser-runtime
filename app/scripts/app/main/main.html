@@ -11,26 +11,24 @@
     <hr/>
     <h4 class="text-left">Browser limitations:</h4>
     <p class="text-justify">
-      You cannot run any <strong>server</strong> in a browser. It means that you will have to connect this node
-      platform to another Kevoree <strong>group</strong> if you want it to share its model.
+      You cannot run any <strong>server</strong> in a browser. It means that you will have to use a Kevoree
+      <strong>group</strong> that uses a <em>centralized</em> architecture.
       Real-time communications from a browser to some endpoint can be made using <strong>Web Sockets</strong>,
-      though this runtime uses Kevoree's <strong>WSGroup</strong> by default.
+      though this runtime uses Kevoree's <strong>RemoteWSGroup</strong> by default.
+    </p>
+    <p class="text-justify">
+      The <strong>RemoteWSGroup</strong> allows nodes to share models using an external endpoint. We provide a public
+      one at <strong>ws://ws.braindead.fr</strong> (soon ws.kevoree.org)
     </p>
     <hr/>
-    <h4 class="text-left">Kevoree Web Editor:</h4>
+    <h4 class="text-left">See my runtime model:</h4>
     <p class="text-justify">
-      In order to check if this runtime will be able to connect to another WSGroup, you can test the connection
-      by using the
-      <a href="http://editor.kevoree.org" target="_blank">
-        Kevoree Web Editor <i class="fa fa-external-link"></i>
-      </a>
-      and do:
+      In order to view your runtime Kevoree model, you can use the Web editor
     </p>
     <p class="text-center">
-      <strong>File > Open from node</strong>
-    </p>
-    <p class="text-justify">
-      Enter your WSGroup connection information in the form, then click <strong>Pull model</strong>.
+      <a data-ng-href="http://editor.kevoree.org/?host=ws.braindead.fr&port=80&path={{APP_ID}}" target="_blank">
+        Kevoree Web Editor <i class="fa fa-external-link"></i>
+      </a>
     </p>
   </div>
   <div class="col-md-3 col-md-offset-1 well">
@@ -55,21 +53,21 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-4 control-label" for="runtimeMasterGroupPort">Master group port</label>
+          <label class="col-sm-4 control-label" for="runtimeWSHost">Broker host</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" name="runtimeMasterGroupPort" id="runtimeMasterGroupPort" placeholder="Enter your master group port" data-ng-model="runtime.masterGroupPort" data-ui-keypress="{13:'start()'}">
+            <input type="text" class="form-control" name="runtimeMasterGroupPort" id="runtimeWSHost" placeholder="WS host url" data-ng-model="runtime.ws_host" data-ui-keypress="{13:'start()'}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-4 control-label" for="runtimeMasterNodeName">Master node name</label>
+          <label class="col-sm-4 control-label" for="runtimeWSPort">Broker port</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" name="runtimeMasterNodeName" id="runtimeMasterNodeName" placeholder="Enter your master node name" data-ng-model="runtime.masterNodeName" data-ui-keypress="{13:'start()'}">
+            <input type="text" class="form-control" name="runtimeMasterNodeName" id="runtimeWSPort" placeholder="WS broker port" data-ng-model="runtime.ws_port" data-ui-keypress="{13:'start()'}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-4 control-label" for="runtimeMasterNodeIP">Master node IP</label>
+          <label class="col-sm-4 control-label" for="runtimeWSPath">Broker path</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" name="runtimeMasterNodeIP" id="runtimeMasterNodeIP" placeholder="Enter your master node IP" data-ng-model="runtime.masterNodeIP" data-ui-keypress="{13:'start()'}">
+            <input type="text" class="form-control" name="runtimeMasterNodeIP" id="runtimeWSPath" placeholder="Shared ID between your nodes on the same group" data-ng-model="runtime.ws_path" data-ui-keypress="{13:'start()'}">
           </div>
         </div>
         <hr/>

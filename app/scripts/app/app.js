@@ -18,6 +18,9 @@ angular
     'ui.codemirror',
     'ui.utils'
   ])
+  .run(function ($rootScope, APP_ID) {
+    $rootScope.APP_ID = APP_ID;
+  })
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 

@@ -10,21 +10,48 @@ angular.module('browserApp')
     $scope.isStarted = kCore.isStarted();
     $scope.processing = false;
     $scope.runtime = {
-      nodeName: null
+      nodeName: 'node0'
+    };
+
+    $scope.runtimeNodeNameEvents = {
+      focus: function () {
+        $scope.runtime.nodeName = null;
+      },
+      blur: function () {
+        if (!$scope.runtime.nodeName) {
+          $scope.runtime.nodeName = 'node0';
+        }
+      }
     };
 
     if (kCore.isStarted()) {
       try {
         $scope.kevscript =
-          '// the current KevScript equivalent of your runtime state is:\n' +
-          kScript.parseModel(kCore.getCurrentModel());
+          '// this KevScript reflects the current state of your runtime\n' +
+          kScript.parseModel(kCore.getCurrentModel()) + '\n' +
+          '// you can add some more kevscript to be merged locally:\n';
       } catch (err) {
         $scope.kevscript = '// wait for the runtime to complete its deployment';
       }
     } else {
       $scope.kevscript =
-        '// write your kevscript here' + '\n' +
-        'add node0: JavascriptNode' + '\n';
+        '//==========================================//' + '\n' +
+        '// This is a default KevScript file         //' + '\n' +
+        '// Feel free to edit it to suits your needs //' + '\n' +
+        '//==========================================//' + '\n' +
+        '\n' +
+        '// this node platform' + '\n' +
+        'add node0: JavascriptNode' + '\n' +
+        '// add a RemoteWSGroup to be able to manipulate the model from external tools' + '\n' +
+        'add sync: RemoteWSGroup' + '\n' +
+        '\n' +
+        '// add this node to the group' + '\n' +
+        'attach node0 sync' + '\n' +
+        '\n' +
+        '// use a public WebSocket broker' + '\n' +
+        'set sync.host = "ws.braindead.fr"' + '\n' +
+        '// use a randomly generated ID to prevent conflicts with others' + '\n' +
+        'set sync.path = "' + $scope.APP_ID + '"\n';
     }
 
     var editor = null;
@@ -145,6 +172,24 @@ angular.module('browserApp')
         } else {
           $scope.runtimeError = 'You must give a node name';
         }
+      }
+    };
+
+    $scope.merge = function () {
+      if (!$scope.processing) {
+        $scope.processing = true;
+        kScript.parse($scope.kevscript, function (err, model) {
+          if (err) {
+            console.log('KevScript parse error:', err.message);
+            $scope.parseError = err.message;
+            $scope.processing = false;
+            $scope.$apply();
+
+          } else {
+            kCore.deploy(model);
+            $state.go('logs');
+          }
+        });
       }
     };
   });

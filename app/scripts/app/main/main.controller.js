@@ -6,7 +6,7 @@
  * Controller of the browserApp main content div
  */
 angular.module('browserApp')
-  .controller('MainCtrl', function ($scope, $state, $timeout, kCore, kScript, GROUP_NAME, MASTER_GROUP_PORT, MASTER_NODE_NAME, MASTER_NODE_IP) {
+  .controller('MainCtrl', function ($scope, $state, $timeout, kCore, kScript, GROUP_NAME, WS_HOST, WS_PORT) {
     if (kCore.isStarted()) {
       $state.go('dashboard');
       return;
@@ -14,10 +14,10 @@ angular.module('browserApp')
 
     $scope.processing = false;
     $scope.runtime = {
-      groupName:       GROUP_NAME,
-      masterGroupPort: MASTER_GROUP_PORT,
-      masterNodeName:  MASTER_NODE_NAME,
-      masterNodeIP:    MASTER_NODE_IP
+      groupName: GROUP_NAME,
+      ws_host:   WS_HOST,
+      ws_port:   WS_PORT,
+      ws_path:   $scope.APP_ID
     };
 
     $scope.start = function () {
