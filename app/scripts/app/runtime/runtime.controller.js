@@ -11,9 +11,6 @@ angular.module('browserApp')
       $scope.$state = $state;
       $scope.instances = {};
 
-      window.$state = $state;
-      window.runtimeStates = runtimeStates;
-
       function updateInstances() {
         $scope.instances = kCore.instances;
 
@@ -38,24 +35,6 @@ angular.module('browserApp')
               delete $scope.instances[path];
             }
         });
-
-        //var node = kCore.getNode();
-        //if (node) {
-        //  var instances = kCore.getInstances();
-        //  node.components.array.forEach(function (comp) {
-        //    if (!runtimeStates.has(comp.name)) {
-        //      var meta = comp.typeDefinition.select('deployUnits[name=*]/filters[name=platform,value=javascript]');
-        //      runtimeStates
-        //        .state(comp.name, {
-        //          parent: 'runtime',
-        //          url: '/'+comp.name,
-        //          templateUrl: KevoreeResolver.getUIUrl(meta.get(0).eContainer()),
-        //          controller: instances[comp.path()].uiController()
-        //        });
-        //    }
-        //    $scope.instances[comp.name] = comp;
-        //  });
-        //}
       }
 
       if (kCore.isStarted()) {

@@ -9,6 +9,10 @@ angular.module('browserApp')
       },
 
       info: function (tag, msg) {
+        if (typeof msg === 'undefined') {
+          msg = tag;
+          tag = this.tag;
+        }
         this.logs.push({
           level: 'default',
           tag: tag,
@@ -19,6 +23,10 @@ angular.module('browserApp')
       },
 
       warn: function (tag, msg) {
+        if (typeof msg === 'undefined') {
+          msg = tag;
+          tag = this.tag;
+        }
         this.logs.push({
           level: 'warning',
           tag: tag,
@@ -29,6 +37,10 @@ angular.module('browserApp')
       },
 
       debug: function (tag, msg) {
+        if (typeof msg === 'undefined') {
+          msg = tag;
+          tag = this.tag;
+        }
         this.logs.push({
           level: 'info',
           tag: tag,
@@ -39,6 +51,10 @@ angular.module('browserApp')
       },
 
       error: function (tag, msg) {
+        if (typeof msg === 'undefined') {
+          msg = tag;
+          tag = this.tag;
+        }
         this.logs.push({
           level: 'danger',
           tag: tag,
