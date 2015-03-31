@@ -5,3 +5,12 @@ build:
         - olger/yeoman-bower-install
         - wercker/grunt:
             tasks: build
+deploy:
+    steps:
+        - sjoerdmulder/rsync-deploy@0.1.0:
+            user: kevoree
+            host: braindead.fr
+            sshport: 22108
+            sshkey: $SSH_PRIVATE
+            source: dist
+            directory: ~/www/runjs
