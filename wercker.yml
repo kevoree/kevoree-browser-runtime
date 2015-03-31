@@ -7,18 +7,9 @@ build:
             tasks: build
 deploy:
     steps:
-        - script:
-            name: echo key path
-            code: |
-              echo $PRIVATEKEY_PATH
-        - script:
-            name: echo key file
-            code: |
-              echo $PRIVATEKEY_FILE
         - sjoerdmulder/rsync-deploy@0.1.0:
             user: $USER
             host: $HOST
             sshport: $PORT
-            sshkey: $PRIVATEKEY_PATH
             source: ./dist/*
             directory: $DEST
