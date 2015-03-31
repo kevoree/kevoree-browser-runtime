@@ -1,0 +1,7 @@
+box: olger/box-yeoman@0.5.5
+build:
+    steps:
+        - wercker/npm-install
+        - olger/yeoman-bower-install
+        - wercker/grunt:
+            tasks: build
