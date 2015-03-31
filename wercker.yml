@@ -8,9 +8,9 @@ build:
 deploy:
     steps:
         - sjoerdmulder/rsync-deploy@0.1.0:
-            user: kevoree
-            host: braindead.fr
-            sshport: 22108
+            user: $USER
+            host: $HOST
+            sshport: $PORT
             sshkey: $SSH_PRIVATE
             source: dist
             directory: ~/www/runjs
