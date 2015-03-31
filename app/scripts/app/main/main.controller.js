@@ -6,8 +6,8 @@
  * Controller of the browserApp main content div
  */
 angular.module('browserApp')
-  .controller('MainCtrl', function ($scope, $state, $timeout, kCore, kScript, GROUP_NAME, WS_HOST, WS_PORT) {
-    if (kCore.isStarted()) {
+  .controller('MainCtrl', function ($rootScope, $scope, $state, $timeout, kCore, kScript, GROUP_NAME, WS_HOST, WS_PORT) {
+    if (!kCore.isDestroyed()) {
       $state.go('dashboard');
       return;
     }
@@ -17,7 +17,7 @@ angular.module('browserApp')
       groupName: GROUP_NAME,
       ws_host:   WS_HOST,
       ws_port:   WS_PORT,
-      ws_path:   $scope.APP_ID
+      ws_path:   $rootScope.APP_ID
     };
 
     $scope.start = function () {
@@ -25,20 +25,22 @@ angular.module('browserApp')
         if ($scope.runtime.nodeName) {
           $scope.error = null;
           $scope.processing = true;
-          kCore.start($scope.runtime.nodeName, function () {
-            var kevs = kScript.defaultModel($scope.runtime);
-            kScript.parse(kevs, function (err, model) {
-              if (err) {
-                $scope.error = err.message;
-                $scope.processing = false;
-                $scope.$apply();
+          var kevs = kScript.defaultModel($scope.runtime);
+          kScript.parse(kevs, function (err, model) {
+            if (err) {
+              $scope.error = err.message;
+              $scope.processing = false;
+              $scope.$apply();
 
-              } else {
+            } else {
+              kCore.start($scope.runtime.nodeName, function () {
+                $rootScope.APP_ID = $scope.runtime.ws_path;
+                $rootScope.WS_HOST = $scope.runtime.ws_host;
+                $rootScope.WS_PORT = $scope.runtime.ws_port;
                 kCore.deploy(model);
                 $state.go('logs');
-              }
-            });
-
+              });
+            }
           });
         } else {
           $scope.error = 'You must give a node name';

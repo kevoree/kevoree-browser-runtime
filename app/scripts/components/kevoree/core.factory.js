@@ -3,6 +3,7 @@ angular.module('browserApp')
 
     function BrowserCore() {
       this.instances = {};
+      this.destroyed = true;
       this.started = false;
       this.emitter = new EventEmitter();
       this.core = new KevoreeCore(MODULES_PATH, kLogger);
@@ -17,10 +18,8 @@ angular.module('browserApp')
       }.bind(this));
 
       this.core.on('stopped', function () {
-        // clean logs
-        kLogger.clean();
+        this.stopTime = new Date().getTime();
         this.started = false;
-        this.startTime = null;
         if (this.stopCallback) {
           this.stopCallback();
           this.stopCallback = null;
@@ -29,6 +28,7 @@ angular.module('browserApp')
       }.bind(this));
 
       this.core.on('error', function (err) {
+        console.error(err.stack);
         if (this.deployCallback) {
           this.deployCallback(err);
           this.deployCallback = null;
@@ -42,6 +42,7 @@ angular.module('browserApp')
       }.bind(this));
 
       this.core.on('adaptationError', function (err) {
+        console.error(err.stack);
         if (this.deployCallback) {
           this.deployCallback(err);
           this.deployCallback = null;
@@ -74,6 +75,7 @@ angular.module('browserApp')
 
       this.core.on('started', function () {
         this.startTime = new Date().getTime();
+        this.destroyed = false;
         if (this.startCallback) {
           this.startCallback();
           this.startCallback = null;
@@ -83,6 +85,7 @@ angular.module('browserApp')
     }
 
     BrowserCore.prototype.start = function (nodeName, callback) {
+      this.nodeName = nodeName;
       this.started = true;
       this.startCallback = callback;
       this.core.start(nodeName);
@@ -123,6 +126,10 @@ angular.module('browserApp')
 
     BrowserCore.prototype.isStarted = function () {
       return this.started;
+    };
+
+    BrowserCore.prototype.isDestroyed = function () {
+      return this.destroyed;
     };
 
     BrowserCore.prototype.on = function (event, callback) {

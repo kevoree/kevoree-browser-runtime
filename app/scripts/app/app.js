@@ -18,8 +18,10 @@ angular
     'ui.codemirror',
     'ui.utils'
   ])
-  .run(function ($rootScope, APP_ID) {
+  .run(function ($rootScope, APP_ID, WS_HOST, WS_PORT) {
     $rootScope.APP_ID = APP_ID;
+    $rootScope.WS_HOST = WS_HOST;
+    $rootScope.WS_PORT = WS_PORT;
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');

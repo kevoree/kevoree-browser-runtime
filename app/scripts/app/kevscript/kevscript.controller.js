@@ -8,6 +8,7 @@
 angular.module('browserApp')
   .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore, kScript) {
     $scope.isStarted = kCore.isStarted();
+    $scope.isDestroyed = kCore.isDestroyed();
     $scope.processing = false;
     $scope.runtime = {
       nodeName: 'node0'
@@ -24,14 +25,19 @@ angular.module('browserApp')
       }
     };
 
-    if (kCore.isStarted()) {
-      try {
+    if (!kCore.isDestroyed()) {
+      if (kCore.isStarted()) {
+        try {
+          $scope.kevscript =
+            '// this KevScript reflects the current state of your runtime\n' +
+            kScript.parseModel(kCore.getCurrentModel()) + '\n' +
+            '// you can add some more kevscript to be merged locally:\n';
+        } catch (err) {
+          $scope.kevscript = '// wait for the runtime to complete its deployment';
+        }
+      } else {
         $scope.kevscript =
-          '// this KevScript reflects the current state of your runtime\n' +
-          kScript.parseModel(kCore.getCurrentModel()) + '\n' +
-          '// you can add some more kevscript to be merged locally:\n';
-      } catch (err) {
-        $scope.kevscript = '// wait for the runtime to complete its deployment';
+          '// runtime is stopped';
       }
     } else {
       $scope.kevscript =
@@ -155,19 +161,25 @@ angular.module('browserApp')
           $scope.runtimeError = null;
           $scope.parseError = null;
           $scope.processing = true;
-          kCore.start($scope.runtime.nodeName, function () {
-            kScript.parse($scope.kevscript, function (err, model) {
-              if (err) {
-                console.log('KevScript parse error:', err.message);
-                $scope.parseError = err.message;
+          kScript.parse($scope.kevscript, function (err, model) {
+            if (err) {
+              console.log('KevScript parse error:', err.message);
+              $scope.parseError = err.message;
+              $scope.processing = false;
+              $scope.$apply();
+
+            } else {
+              if (model.findNodesByID($scope.runtime.nodeName)) {
+                kCore.start($scope.runtime.nodeName, function () {
+                  kCore.deploy(model);
+                  $state.go('logs');
+                });
+              } else {
+                $scope.runtimeError = 'Unable to find node "'+$scope.runtime.nodeName+'" in your model';
                 $scope.processing = false;
                 $scope.$apply();
-
-              } else {
-                kCore.deploy(model);
-                $state.go('logs');
               }
-            });
+            }
           });
         } else {
           $scope.runtimeError = 'You must give a node name';

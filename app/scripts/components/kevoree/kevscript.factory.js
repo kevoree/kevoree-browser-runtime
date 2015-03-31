@@ -7,9 +7,9 @@ angular.module('browserApp')
       parseModel: kevs.parseModel,
       defaultModel: function (runtime) {
         runtime.groupName = runtime.groupName || GROUP_NAME;
-        runtime.host      = runtime.host      || WS_HOST;
-        runtime.port      = runtime.port      || WS_PORT;
-        runtime.path      = runtime.path      || APP_ID;
+        runtime.host      = runtime.ws_host   || WS_HOST;
+        runtime.port      = runtime.ws_port   || WS_PORT;
+        runtime.path      = runtime.ws_path   || APP_ID;
 
         var template =
           'add {nodeName}: JavascriptNode' + '\n' +

@@ -37,8 +37,8 @@ angular.module('browserApp')
         });
       }
 
-      if (kCore.isStarted()) {
-        $scope.nodeName = kCore.core.nodeName;
+      if (!kCore.isDestroyed()) {
+        $scope.nodeName = kCore.nodeName;
         updateInstances();
 
         var deployHandler = function () {
