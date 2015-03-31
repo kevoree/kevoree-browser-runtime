@@ -13,4 +13,4 @@ deploy:
             sshport: $PORT
             sshkey: $SSH_PRIVATE
             source: dist
-            directory: ~/www/runjs
+            directory: $DEST
