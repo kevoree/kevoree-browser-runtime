@@ -12,5 +12,5 @@ deploy:
             host: $HOST
             sshport: $PORT
             sshkey: $SSH_PRIVATE
-            source: dist
+            source: ./dist/*
             directory: $DEST
