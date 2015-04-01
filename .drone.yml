@@ -1,0 +1,18 @@
+image: maxleiko/node-tools:latest
+script:
+  - npm i
+  - bower --allow-root install
+  - grunt build
+  - mv dist runjs
+  - tar -zcvf runjs.tgz ./runjs
+notify:
+  email:
+    recipients:
+      - leiko@braindead.fr
+deploy:
+  ssh:
+      branch: master
+      target: {{target}}
+      artifacts:
+        - runjs.tgz
+      cmd: "cd ~/www && rm -rf runjs && tar -xvf runjs.tgz && rm -rf runjs.tgz"
