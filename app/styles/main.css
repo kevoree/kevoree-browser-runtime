@@ -71,6 +71,10 @@ body {
   padding-right: 40px;
 }
 
+.list-group-with-buttons .list-group-item {
+  line-height: 30px;
+}
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;

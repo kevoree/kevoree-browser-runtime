@@ -61,6 +61,9 @@ angular.module('browserApp')
     }
 
     var editor = null;
+    var changeTimeout = null;
+    var cachedModel = null;
+
     function saveFileCmd() {
       $modal
         .open({
@@ -133,6 +136,35 @@ angular.module('browserApp')
 
     $scope.editorLoaded = function (_editor) {
       editor = _editor;
+      //editor.on('change', function (editor) {
+      //  $scope.processing = true;
+      //  $scope.parseError = null;
+      //  $scope.runtimeError = null;
+      //  clearTimeout(changeTimeout);
+      //  changeTimeout = setTimeout(function () {
+      //    var start = new Date().getTime();
+      //    console.log('processing content...');
+      //    kScript.parse(editor.getValue(), function (err, model) {
+      //      if (err) {
+      //        cachedModel = null;
+      //        console.log('KevScript parse error:', err.message);
+      //        $scope.parseError = err.message;
+      //      } else {
+      //        if (model.findNodesByID($scope.runtime.nodeName)) {
+      //          cachedModel = model;
+      //          console.log('done');
+      //        } else {
+      //          cachedModel = null;
+      //          $scope.runtimeError = 'Unable to find node "'+$scope.runtime.nodeName+'" in your model';
+      //          console.log('error');
+      //        }
+      //      }
+      //      console.log((new Date().getTime() - start)+'ms');
+      //      $scope.processing = false;
+      //      $scope.$apply();
+      //    });
+      //  }, 1000);
+      //});
     };
 
     $scope.uploadKevscript = function () {
@@ -166,7 +198,9 @@ angular.module('browserApp')
               console.log('KevScript parse error:', err.message);
               $scope.parseError = err.message;
               $scope.processing = false;
-              $scope.$apply();
+              if (!$scope.$$phase) {
+                $scope.$apply();
+              }
 
             } else {
               if (model.findNodesByID($scope.runtime.nodeName)) {
@@ -177,7 +211,9 @@ angular.module('browserApp')
               } else {
                 $scope.runtimeError = 'Unable to find node "'+$scope.runtime.nodeName+'" in your model';
                 $scope.processing = false;
-                $scope.$apply();
+                if (!$scope.$$phase) {
+                  $scope.$apply();
+                }
               }
             }
           });
