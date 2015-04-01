@@ -15,4 +15,5 @@ deploy:
       target: {{target}}
       artifacts:
         - runjs.tgz
-      cmd: "rm -rf /home/kevoree/www/runjs && tar -xvf /home/kevoree/www/runjs.tgz -C /home/kevoree/www && rm -rf /home/kevoree/www/runjs.tgz"
+        - deploy.sh
+      cmd: sh deploy.sh
