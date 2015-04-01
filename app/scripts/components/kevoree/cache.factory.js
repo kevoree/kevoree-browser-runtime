@@ -1,46 +1,38 @@
 
 angular.module('browserApp')
   .factory('kCache', function () {
+    var fs = new Filer.FileSystem();
+    var sh = new fs.Shell();
+    sh.mkdirp('/js');
+    sh.mkdirp('/html');
 
-    function KevoreeCache() {
+    function DeployUnitCacheManager() {
       this.cache = {};
     }
 
-    KevoreeCache.prototype.addJs = function (du, js) {
-      var cached = this.cache[du.name+'_'+du.version];
-      if (cached) {
-        cached.js = js;
-      } else {
-        this.cache[du.name+'_'+du.version] = {
-          js: js
-        };
-      }
+    DeployUnitCacheManager.prototype.addJs = function (du, js) {
+      fs.writeFile('/js/'+du.name+'_'+du.version+'.js', js, function (err) {
+        if (err) {
+          console.warn('Unable to cache '+'/'+du.name+'_'+du.version+'.js'+' in FileSystem');
+        }
+      });
     };
 
-    KevoreeCache.prototype.addUI = function (du, html) {
-      var cached = this.cache[du.name+'_'+du.version];
-      if (cached) {
-        cached.ui = html;
-      } else {
-        this.cache[du.name+'_'+du.version] = {
-          ui: html
-        };
-      }
+    DeployUnitCacheManager.prototype.addUI = function (du, html) {
+      fs.writeFile('/html/'+du.name+'_'+du.version+'.html', html, function (err) {
+        if (err) {
+          console.warn('Unable to cache '+'/'+du.name+'_'+du.version+'.html'+' in FileSystem');
+        }
+      });
     };
 
-    KevoreeCache.prototype.getJs = function (du) {
-      if (this.cache[du.name+'_'+du.version]) {
-        return this.cache[du.name+'_'+du.version].js;
-      }
-      return null;
+    DeployUnitCacheManager.prototype.getJs = function (du, callback) {
+      fs.readFile('/js/'+du.name+'_'+du.version+'.js', 'utf8', callback);
     };
 
-    KevoreeCache.prototype.getUI = function (du) {
-      if (this.cache[du.name+'_'+du.version]) {
-        return this.cache[du.name+'_'+du.version].ui;
-      }
-      return null;
+    DeployUnitCacheManager.prototype.getUI = function (du, callback) {
+      fs.readFile('/html/'+du.name+'_'+du.version+'.html', 'utf8', callback);
     };
 
-    return new KevoreeCache();
+    return new DeployUnitCacheManager();
   });
