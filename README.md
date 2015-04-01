@@ -1,4 +1,4 @@
-[![Build Status](https://drone.io/github.com/kevoree/kevoree-browser-runtime/status.png)](https://drone.io/github.com/kevoree/kevoree-browser-runtime/latest)
+[![Build Status](http://drone.braindead.fr/github.com/kevoree/kevoree-browser-runtime/status.svg?branch=master)](http://drone.braindead.fr/github.com/kevoree/kevoree-browser-runtime)
 
 # Kevoree Browser Runtime
 
