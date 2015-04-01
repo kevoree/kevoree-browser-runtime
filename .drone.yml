@@ -16,4 +16,4 @@ deploy:
       artifacts:
         - runjs.tgz
         - deploy.sh
-      cmd: sh deploy.sh
+      cmd: sh /home/kevoree/www/deploy.sh
