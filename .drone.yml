@@ -3,8 +3,6 @@ script:
   - npm i
   - bower --allow-root install
   - grunt build
-  - mv dist runjs
-  - tar -zcvf runjs.tgz ./runjs
 notify:
   email:
     recipients:
@@ -14,6 +12,5 @@ deploy:
       branch: master
       target: {{target}}
       artifacts:
-        - runjs.tgz
-        - deploy.sh
-      cmd: sh /home/kevoree/www/deploy.sh
+        - dist
+      cmd: ls /home/kevoree/www
