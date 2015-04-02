@@ -1,5 +1,5 @@
 angular.module('browserApp')
-  .factory('kScript', function (GROUP_NAME, WS_HOST, WS_PORT, APP_ID) {
+  .factory('kScript', function ($rootScope, GROUP_NAME, WS_HOST, WS_PORT) {
     function CacheManager() {
       this.cache = localStorage;
     }
@@ -21,7 +21,7 @@ angular.module('browserApp')
       runtime.groupName = runtime.groupName || GROUP_NAME;
       runtime.host      = runtime.ws_host   || WS_HOST;
       runtime.port      = runtime.ws_port   || WS_PORT;
-      runtime.path      = runtime.ws_path   || APP_ID;
+      runtime.path      = runtime.ws_path   || $rootScope.APP_ID;
 
       var template =
         'add {nodeName}: JavascriptNode' + '\n' +

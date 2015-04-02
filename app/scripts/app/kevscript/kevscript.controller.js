@@ -190,33 +190,37 @@ angular.module('browserApp')
     $scope.start = function () {
       if (!$scope.processing) {
         if ($scope.runtime.nodeName) {
-          $scope.runtimeError = null;
-          $scope.parseError = null;
-          $scope.processing = true;
-          kScript.parse($scope.kevscript, function (err, model) {
-            if (err) {
-              console.log('KevScript parse error:', err.message);
-              $scope.parseError = err.message;
-              $scope.processing = false;
-              if (!$scope.$$phase) {
-                $scope.$apply();
-              }
-
-            } else {
-              if (model.findNodesByID($scope.runtime.nodeName)) {
-                kCore.start($scope.runtime.nodeName, function () {
-                  kCore.deploy(model);
-                  $state.go('logs');
-                });
-              } else {
-                $scope.runtimeError = 'Unable to find node "'+$scope.runtime.nodeName+'" in your model';
+          if (!$scope.runtime.nodeName.match(/\s/g)) { // prevent spaces in nodeName
+            $scope.runtimeError = null;
+            $scope.parseError = null;
+            $scope.processing = true;
+            kScript.parse($scope.kevscript, function (err, model) {
+              if (err) {
+                console.log('KevScript parse error:', err.message);
+                $scope.parseError = err.message;
                 $scope.processing = false;
                 if (!$scope.$$phase) {
                   $scope.$apply();
                 }
+
+              } else {
+                if (model.findNodesByID($scope.runtime.nodeName)) {
+                  kCore.start($scope.runtime.nodeName, function () {
+                    kCore.deploy(model);
+                    $state.go('logs');
+                  });
+                } else {
+                  $scope.runtimeError = 'Unable to find node "'+$scope.runtime.nodeName+'" in your model';
+                  $scope.processing = false;
+                  if (!$scope.$$phase) {
+                    $scope.$apply();
+                  }
+                }
               }
-            }
-          });
+            });
+          } else {
+            $scope.runtimeError = 'Invalid node name (spaces forbidden)'
+          }
         } else {
           $scope.runtimeError = 'You must give a node name';
         }

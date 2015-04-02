@@ -27,7 +27,7 @@ angular.module('browserApp')
     $scope.start = function () {
       if (!$scope.processing) {
         if ($scope.runtime.nodeName) {
-          if ($scope.runtime.nodeName.match(/\s/g).length === 0) {
+          if (!$scope.runtime.nodeName.match(/\s/g)) { // prevent spaces in nodeName
             $scope.error = null;
             $scope.processing = true;
             var kevs = kScript.defaultModel($scope.runtime);

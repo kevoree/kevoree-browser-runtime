@@ -18,8 +18,9 @@ angular
     'ui.codemirror',
     'ui.utils'
   ])
-  .run(function ($rootScope, APP_ID, WS_HOST, WS_PORT) {
-    $rootScope.APP_ID = APP_ID;
+  .run(function ($rootScope, WS_HOST, WS_PORT, VERSION) {
+    $rootScope.VERSION = VERSION;
+    $rootScope.APP_ID = uuid.v4();
     $rootScope.WS_HOST = WS_HOST;
     $rootScope.WS_PORT = WS_PORT;
   })
