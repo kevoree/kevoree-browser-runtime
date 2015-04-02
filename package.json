@@ -1,6 +1,7 @@
 {
-  "name": "browser",
-  "version": "0.0.0",
+  "name": "kevoree-browser-runtime",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {},
   "repository": {},
   "devDependencies": {
@@ -21,6 +22,7 @@
     "grunt-google-cdn": "^0.4.3",
     "grunt-newer": "^0.8.0",
     "grunt-ng-annotate": "^0.10.0",
+    "grunt-processhtml": "^0.3.7",
     "grunt-svgmin": "^2.0.0",
     "grunt-usemin": "^2.6.2",
     "grunt-wiredep": "^2.0.0",
@@ -34,5 +36,16 @@
   },
   "scripts": {
     "test": "grunt test"
-  }
+  },
+  "description": "[![Build Status](http://drone.braindead.fr/github.com/kevoree/kevoree-browser-runtime/status.svg?branch=master)](http://drone.braindead.fr/github.com/kevoree/kevoree-browser-runtime)",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "kevoree",
+    "runtime",
+    "browser"
+  ],
+  "author": "Maxime Tricoire <max.tricoire@gmail.com>",
+  "license": "LGPL-3.0"
 }

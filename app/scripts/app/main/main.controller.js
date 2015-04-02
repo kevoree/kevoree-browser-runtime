@@ -20,28 +20,36 @@ angular.module('browserApp')
       ws_path:   $rootScope.APP_ID
     };
 
+    $scope.keyPressHandler = {
+      enter: 'start()'
+    };
+
     $scope.start = function () {
       if (!$scope.processing) {
         if ($scope.runtime.nodeName) {
-          $scope.error = null;
-          $scope.processing = true;
-          var kevs = kScript.defaultModel($scope.runtime);
-          kScript.parse(kevs, function (err, model) {
-            if (err) {
-              $scope.error = err.message;
-              $scope.processing = false;
-              $scope.$apply();
+          if ($scope.runtime.nodeName.match(/\s/g).length === 0) {
+            $scope.error = null;
+            $scope.processing = true;
+            var kevs = kScript.defaultModel($scope.runtime);
+            kScript.parse(kevs, function (err, model) {
+              if (err) {
+                $scope.error = err.message;
+                $scope.processing = false;
+                $scope.$apply();
 
-            } else {
-              kCore.start($scope.runtime.nodeName, function () {
-                $rootScope.APP_ID = $scope.runtime.ws_path;
-                $rootScope.WS_HOST = $scope.runtime.ws_host;
-                $rootScope.WS_PORT = $scope.runtime.ws_port;
-                kCore.deploy(model);
-                $state.go('logs');
-              });
-            }
-          });
+              } else {
+                kCore.start($scope.runtime.nodeName, function () {
+                  $rootScope.APP_ID = $scope.runtime.ws_path;
+                  $rootScope.WS_HOST = $scope.runtime.ws_host;
+                  $rootScope.WS_PORT = $scope.runtime.ws_port;
+                  kCore.deploy(model);
+                  $state.go('logs');
+                });
+              }
+            });
+          } else {
+            $scope.error = 'Invalid node name (spaces forbidden)';
+          }
         } else {
           $scope.error = 'You must give a node name';
         }

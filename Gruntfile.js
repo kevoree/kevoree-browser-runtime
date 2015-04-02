@@ -25,6 +25,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     // Project settings
+    pkg: grunt.file.readJSON('package.json'),
     yeoman: appConfig,
 
     // Watches files for changes and runs tasks based on the changed files
@@ -192,6 +193,23 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
+      }
+    },
+
+    processhtml: {
+      options: {
+        data: {
+          version: '<%= pkg.version %>'
+        }
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: ['{,**/}*.html'],
+          dest: '<%= yeoman.dist %>/',
+          ext: '.html'
+        }]
       }
     },
 
@@ -412,6 +430,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+    'processhtml',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

@@ -1,13 +1,13 @@
 angular.module('browserApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('options', {
+      .state('settings', {
         parent: 'app',
-        url: '/options',
+        url: '/settings',
         views: {
           'content@': {
-            templateUrl: 'scripts/app/options/options.html',
-            controller: 'OptionsCtrl'
+            templateUrl: 'scripts/app/settings/settings.html',
+            controller: 'SettingsCtrl'
           }
         }
       });

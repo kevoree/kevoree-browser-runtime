@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name browserApp.controller:OptionsCtrl
+ * @name browserApp.controller:SettingsCtrl
  * @description
- * # OptionsCtrl
+ * # SettingsCtrl
  * Controller of the browserApp options page
  */
 angular.module('browserApp')
-  .controller('OptionsCtrl', function ($scope, kScript) {
+  .controller('SettingsCtrl', function ($scope, kScript) {
     $scope.getKevSCacheLength = function () {
       return Object.keys(kScript.getCacheManager().cache).length;
     };
