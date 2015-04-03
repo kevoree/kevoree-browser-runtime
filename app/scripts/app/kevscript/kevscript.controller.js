@@ -43,7 +43,7 @@ angular.module('browserApp')
       $scope.kevscript =
         '//==========================================//' + '\n' +
         '// This is a default KevScript file         //' + '\n' +
-        '// Feel free to edit it to suits your needs //' + '\n' +
+        '// Feel free to edit it to suit your needs  //' + '\n' +
         '//==========================================//' + '\n' +
         '\n' +
         '// this node platform' + '\n' +

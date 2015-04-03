@@ -9,7 +9,7 @@ body {
   background-image: url(../images/bg.jpg);
 }
 
-#navbar-logo {
+.navbar-img {
   padding: 8px 15px 0;
 }
 

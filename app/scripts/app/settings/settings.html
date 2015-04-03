@@ -9,5 +9,12 @@
       <strong>Clear KevScript cache</strong>
       <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearKevSCache()" data-ng-disabled="getKevSCacheLength() === 0">Clear</button>
     </li>
+    <li class="list-group-item">
+      <strong>Dev mode</strong>
+      <span class="pull-right">
+        <button class="btn btn-sm btn-primary" data-ng-click="enableDevMode()" data-ng-hide="devMode">Enable</button>
+        <button class="btn btn-sm btn-warning" data-ng-click="disableDevMode()" data-ng-show="devMode">Disable</button>
+      </span>
+    </li>
   </ul>
 </div>

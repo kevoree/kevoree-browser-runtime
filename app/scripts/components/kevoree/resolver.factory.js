@@ -8,7 +8,6 @@ angular.module('browserApp')
           .then(function (data) {
             // TODO change that so that it protects globals
             eval(data);
-            console.log(deployUnit.name+'@'+deployUnit.version+' loaded');
             var Class = require(deployUnit.name);
             callback(null, Class);
           }, function (err) {

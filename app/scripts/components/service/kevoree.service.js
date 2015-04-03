@@ -1,10 +1,12 @@
 angular.module('browserApp')
-  .service('KevoreeResolver', function ($http, $q, kCache, NPM_REGISTRY_URL) {
+  .service('KevoreeResolver', function ($http, $q, kCache, kLogger, NPM_REGISTRY_URL) {
     return {
+      devMode: false,
       resolve: function (deployUnit) {
+        var devMode = this.devMode;
         var duFile = 'browser/'+deployUnit.name+'.min.js';
 
-        return $q(function (resolve, reject) {
+        function resolveProcess(resolve, reject) {
           kCache.getJs(deployUnit, function (err, data) {
             if (err) {
               TarGZ.load(
@@ -28,12 +30,30 @@ angular.module('browserApp')
               resolve(data);
             }
           });
+        }
+
+        return $q(function (resolve, reject) {
+          if (devMode) {
+            kLogger.debug('KevoreeResolver', 'DevMode enabled: checking localhost:59000 before registry.npmjs.org');
+            $http
+              .get('http://localhost:59000/'+deployUnit.name+'.js')
+              .then(
+              function (res) {
+                resolve(res.data);
+              },
+              function () {
+                resolveProcess(resolve, reject);
+              });
+          } else {
+            resolveProcess(resolve, reject);
+          }
         });
       },
       resolveUI: function (deployUnit) {
+        var devMode = this.devMode;
         var duFile = 'browser/'+deployUnit.name+'.html';
 
-        return $q(function (resolve, reject) {
+        function resolveProcess(resolve, reject) {
           kCache.getUI(deployUnit, function (err, data) {
             if (err) {
               TarGZ.load(
@@ -57,7 +77,32 @@ angular.module('browserApp')
               resolve(data);
             }
           });
+        }
+
+        return $q(function (resolve, reject) {
+          if (devMode) {
+            kLogger.debug('KevoreeResolver', 'DevMode enabled: checking localhost:59000 before registry.npmjs.org');
+            $http
+              .get('http://localhost:59000/'+deployUnit.name+'.html')
+              .then(
+              function (res) {
+                resolve(res.data);
+              },
+              function () {
+                resolveProcess(resolve, reject);
+              });
+          } else {
+            resolveProcess(resolve, reject);
+          }
         });
+      },
+
+      setDevMode: function (status) {
+        this.devMode = status;
+      },
+
+      getDevMode: function () {
+        return this.devMode;
       }
     };
   });
