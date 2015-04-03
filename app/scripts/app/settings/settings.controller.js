@@ -6,15 +6,32 @@
  * Controller of the browserApp options page
  */
 angular.module('browserApp')
-  .controller('SettingsCtrl', function ($scope, kScript, KevoreeResolver) {
+  .controller('SettingsCtrl', function ($scope, $timeout, kScript, kCache, KevoreeResolver) {
     $scope.devMode = KevoreeResolver.getDevMode();
 
-    $scope.getKevSCacheLength = function () {
-      return Object.keys(kScript.getCacheManager().cache).length;
+    $scope.isKevSCacheEmpty = function () {
+      return kScript.getCacheManager().getAll().length === 0;
     };
+
+    $scope.isDUsCacheEmpty = true;
+    kCache.getAll(function (entries) {
+      $timeout(function () {
+        console.log(entries);
+        $scope.isDUsCacheEmpty = (entries.length === 0);
+      });
+    });
 
     $scope.clearKevSCache = function () {
       kScript.getCacheManager().clear();
+    };
+
+    $scope.clearDUsCache = function () {
+      kCache.clear(function () {
+        console.log('DeployUnits cache cleared');
+        $timeout(function () {
+          $scope.isDUsCacheEmpty = true;
+        });
+      });
     };
 
     $scope.enableDevMode = function () {

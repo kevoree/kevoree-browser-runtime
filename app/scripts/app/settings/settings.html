@@ -7,7 +7,11 @@
     </li>
     <li class="list-group-item">
       <strong>Clear KevScript cache</strong>
-      <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearKevSCache()" data-ng-disabled="getKevSCacheLength() === 0">Clear</button>
+      <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearKevSCache()" data-ng-disabled="isKevSCacheEmpty()">Clear</button>
+    </li>
+    <li class="list-group-item">
+      <strong>Clear DeployUnits cache</strong>
+      <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearDUsCache()" data-ng-disabled="isDUsCacheEmpty">Clear</button>
     </li>
     <li class="list-group-item">
       <strong>Dev mode</strong>

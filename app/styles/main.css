@@ -75,6 +75,10 @@ body {
   line-height: 30px;
 }
 
+.ui-notification {
+  width: 150px;
+}
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;

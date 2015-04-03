@@ -1,19 +1,35 @@
 angular.module('browserApp')
-  .factory('kScript', function ($rootScope, GROUP_NAME, WS_HOST, WS_PORT) {
+  .factory('kScript', function ($rootScope, Notification, GROUP_NAME, WS_HOST, WS_PORT) {
+    var CACHE_APPENDIX = 'kevs_';
     function CacheManager() {
       this.cache = localStorage;
     }
     CacheManager.prototype.get = function (key) {
-      return this.cache.getItem(key);
+      return this.cache.getItem(CACHE_APPENDIX+key);
     };
     CacheManager.prototype.add = CacheManager.prototype.put = function (key, value) {
-      this.cache.setItem(key, value);
+      this.cache.setItem(CACHE_APPENDIX+key, value);
     };
     CacheManager.prototype.remove = CacheManager.prototype.delete = function (key) {
-      this.cache.removeItem(key);
+      this.cache.removeItem(CACHE_APPENDIX+key);
+    };
+    CacheManager.prototype.getAll = function () {
+      var ret = [];
+      for (var i=0; i < this.cache.length; i++) {
+        var key = this.cache.key(i);
+        if (key.indexOf(CACHE_APPENDIX) === 0) {
+          ret.push(this.get(key));
+        }
+      }
+      return ret;
     };
     CacheManager.prototype.clear = function () {
       this.cache.clear();
+      Notification.success({
+        title: 'KevScript cache',
+        message: 'Cleared successfully',
+        delay: 3000
+      });
     };
 
     var kevs = new KevoreeKevscript(new CacheManager());

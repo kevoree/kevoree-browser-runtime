@@ -16,13 +16,16 @@ angular
     'ui.bootstrap',
     'ui.router',
     'ui.codemirror',
-    'ui.utils'
+    'ui.utils',
+    'ui-notification'
   ])
-  .run(function ($rootScope, WS_HOST, WS_PORT, VERSION) {
+  .run(function ($rootScope, Notification, WS_HOST, WS_PORT, VERSION) {
     $rootScope.VERSION = VERSION;
     $rootScope.APP_ID = uuid.v4();
     $rootScope.WS_HOST = WS_HOST;
     $rootScope.WS_PORT = WS_PORT;
+
+    Notification.config({top: 60});
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
