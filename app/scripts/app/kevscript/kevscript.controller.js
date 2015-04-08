@@ -250,7 +250,7 @@ angular.module('browserApp')
     $scope.merge = function () {
       if (!$scope.processing) {
         $scope.processing = true;
-        kScript.parse($scope.kevscript, function (err, model) {
+        kScript.parse($scope.kevscript, kCore.getCurrentModel(), function (err, model) {
           if (err) {
             console.log('KevScript parse error:', err.message);
             $scope.parseError = err.message;
