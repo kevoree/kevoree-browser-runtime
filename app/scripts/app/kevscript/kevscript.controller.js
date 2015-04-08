@@ -6,12 +6,12 @@
  * Controller of the browserApp kevscript editor page
  */
 angular.module('browserApp')
-  .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore, kScript) {
+  .controller('KevScriptCtrl', function ($scope, $state, $modal, $timeout, kCore, kScript, KevoreeResolver) {
     $scope.isStarted = kCore.isStarted();
     $scope.isDestroyed = kCore.isDestroyed();
     $scope.processing = false;
     $scope.runtime = {
-      nodeName: 'node0'
+      nodeName: KevoreeResolver.getDevMode() ? 'browser':'node0'
     };
 
     $scope.runtimeNodeNameEvents = {
@@ -20,7 +20,11 @@ angular.module('browserApp')
       },
       blur: function () {
         if (!$scope.runtime.nodeName) {
-          $scope.runtime.nodeName = 'node0';
+          if (KevoreeResolver.getDevMode()) {
+            $scope.runtime.nodeName = 'browser';
+          } else {
+            $scope.runtime.nodeName = 'node0';
+          }
         }
       }
     };
@@ -40,29 +44,45 @@ angular.module('browserApp')
           '// runtime is stopped';
       }
     } else {
-      $scope.kevscript =
-        '//==========================================//' + '\n' +
-        '// This is a default KevScript file         //' + '\n' +
-        '// Feel free to edit it to suit your needs  //' + '\n' +
-        '//==========================================//' + '\n' +
-        '\n' +
-        '// this node platform' + '\n' +
-        'add node0: JavascriptNode' + '\n' +
-        '// add a RemoteWSGroup to be able to manipulate the model from external tools' + '\n' +
-        'add sync: RemoteWSGroup' + '\n' +
-        '\n' +
-        '// add this node to the group' + '\n' +
-        'attach node0 sync' + '\n' +
-        '\n' +
-        '// use a public WebSocket broker' + '\n' +
-        'set sync.host = "ws.braindead.fr"' + '\n' +
-        '// use a randomly generated ID to prevent conflicts with others' + '\n' +
-        'set sync.path = "' + $scope.APP_ID + '"\n';
+      if (KevoreeResolver.getDevMode()) {
+        $scope.kevscript =
+          '//==========================================//' + '\n' +
+          '// Default dev-mode KevScript file          //' + '\n' +
+          '// Feel free to edit it to suit your needs  //' + '\n' +
+          '//==========================================//' + '\n' +
+          '\n' +
+          'add node0, browser: JavascriptNode' + '\n' +
+          'add sync: WSGroup' + '\n' +
+          '\n' +
+          'attach node0, browser sync'+ '\n' +
+          'set sync.master = "node0"' + '\n' +
+          '\n' +
+          'network node0.ip.lo 127.0.0.1' + '\n';
+      } else {
+        $scope.kevscript =
+          '//==========================================//' + '\n' +
+          '// This is a default KevScript file         //' + '\n' +
+          '// Feel free to edit it to suit your needs  //' + '\n' +
+          '//==========================================//' + '\n' +
+          '\n' +
+          '// this node platform' + '\n' +
+          'add node0: JavascriptNode' + '\n' +
+          '// add a RemoteWSGroup to be able to manipulate the model from external tools' + '\n' +
+          'add sync: RemoteWSGroup' + '\n' +
+          '\n' +
+          '// add this node to the group' + '\n' +
+          'attach node0 sync' + '\n' +
+          '\n' +
+          '// use a public WebSocket broker' + '\n' +
+          'set sync.host = "ws.braindead.fr"' + '\n' +
+          '// use a randomly generated ID to prevent conflicts with others' + '\n' +
+          'set sync.path = "' + $scope.APP_ID + '"\n';
+      }
     }
 
     var editor = null;
-    var changeTimeout = null;
-    var cachedModel = null;
+    //var changeTimeout = null;
+    //var cachedModel = null;
 
     function saveFileCmd() {
       $modal

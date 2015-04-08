@@ -10,6 +10,9 @@ angular.module('browserApp')
     function ($scope, $state, $interval, runtimeStates, kCore, KevoreeResolver) {
       $scope.$state = $state;
       $scope.instances = {};
+      $scope.hasInstances = function () {
+        return Object.keys($scope.instances).length > 0;
+      };
 
       function updateInstances() {
         $scope.instances = kCore.instances;
@@ -24,7 +27,13 @@ angular.module('browserApp')
                     parent: 'runtime',
                     url: '/'+instance.getName(),
                     templateProvider: function () {
-                      return KevoreeResolver.resolveUI(meta.get(0).eContainer());
+                      return KevoreeResolver
+                        .resolveUI(meta.get(0).eContainer())
+                        .then(function (html) {
+                          return html;
+                        }, function () {
+                          return '<div class="alert alert-danger">Unable to load '+instance.getName()+' view</div>';
+                        })
                     },
                     controllerProvider: function () {
                       return $scope.instances[path].uiController();

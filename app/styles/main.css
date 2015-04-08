@@ -54,6 +54,9 @@ body {
   margin-bottom: 20px;
   margin-left: -20px;
 }
+.nav-sidebar > li {
+  line-height: 30px;
+}
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
@@ -63,6 +66,34 @@ body {
 .nav-sidebar > .active > a:focus {
   color: #fff;
   background-color: #428bca;
+}
+
+.nav-sidebar > li.divider {
+  background-color: #e5e5e5;
+  height: 1px;
+  margin: 1px 0 1px 0;
+  overflow: hidden;
+  cursor: default;
+}
+
+.nav-sidebar > li.header {
+  display: block;
+  padding: 3px 20px;
+  font-size: 12px;
+  line-height: 1.428;
+  color: #777;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+.nav-sidebar > li.info {
+  display: block;
+  padding: 3px 30px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: default;
 }
 
 .main {
