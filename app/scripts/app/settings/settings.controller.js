@@ -16,7 +16,6 @@ angular.module('browserApp')
     $scope.isDUsCacheEmpty = true;
     kCache.getAll(function (entries) {
       $timeout(function () {
-        console.log(entries);
         $scope.isDUsCacheEmpty = (entries.length === 0);
       });
     });
@@ -27,7 +26,6 @@ angular.module('browserApp')
 
     $scope.clearDUsCache = function () {
       kCache.clear(function () {
-        console.log('DeployUnits cache cleared');
         $timeout(function () {
           $scope.isDUsCacheEmpty = true;
         });
