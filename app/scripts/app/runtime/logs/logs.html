@@ -1,0 +1,35 @@
+<div class="table-responsive ng-scope">
+  <div class="row-fluid clearfix">
+    <div class="col-xs-5">
+      <h4>Platform logs:</h4>
+    </div>
+    <div class="col-xs-offset-5 col-md-offset-8">
+      <div class="input-group">
+        <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="Filter logs" data-ng-model="logFilter">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" data-ng-click="cleanLogs()">Clean logs <i class="fa fa-trash-o"></i></button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <table class="table table-striped table-condensed">
+    <thead>
+    <tr>
+      <th>
+        <a data-ng-click="reverse=!reverse" class="point-cursor">Time <i class="fa fa-sort pull-right"></i></a>
+      </th>
+      <th>Tag</th>
+      <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-class="log.level" data-ng-repeat="log in logs | filter:logFilter | orderBy:'time':reverse" class="default">
+      <td>{{ log.time | date:'HH:mm:ss:sss' }}</td>
+      <td>{{ log.tag }}</td>
+      <td>
+        <pre>{{ log.msg }}</pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

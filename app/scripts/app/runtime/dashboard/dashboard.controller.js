@@ -1,8 +1,8 @@
 /**
  * @ngdoc function
- * @name browserApp.controller:KevScriptCtrl
+ * @name browserApp.controller:RuntimeDashboardCtrl
  * @description
- * # HomeCtrl
+ * # RuntimeDashboardCtrl
  * Controller of the browserApp Runtime dashboard page
  */
 angular.module('browserApp')
