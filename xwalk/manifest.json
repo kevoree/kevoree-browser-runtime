@@ -10,7 +10,10 @@
     }
   ],
   "start_url": "index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "any",
-  "xwalk_hosts": ["*"]
+  "xwalk_hosts": [
+    "http://registry.kevoree.org/",
+    "http://registry.npmjs.org/"
+  ]
 }
