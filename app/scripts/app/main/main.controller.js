@@ -35,7 +35,9 @@ angular.module('browserApp')
               if (err) {
                 $scope.error = err.message;
                 $scope.processing = false;
-                $scope.$apply();
+                if (!$scope.$$phase) {
+                  $scope.$apply();
+                }
 
               } else {
                 kCore.start($scope.runtime.nodeName, function () {

@@ -1,0 +1,16 @@
+{
+  "name": "Kevoree RunJS",
+  "xwalk_version": "1.0.4",
+  "icons": [
+    {
+      "src": "images/kevoree.fed4db27.png",
+      "sizes": "61x35",
+      "type": "image/png",
+      "density": "4.0"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "xwalk_hosts": ["*"]
+}

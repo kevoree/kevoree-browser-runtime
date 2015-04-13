@@ -255,7 +255,9 @@ angular.module('browserApp')
             console.log('KevScript parse error:', err.message);
             $scope.parseError = err.message;
             $scope.processing = false;
-            $scope.$apply();
+            if (!$scope.$$phase) {
+              $scope.$apply();
+            }
 
           } else {
             kCore.deploy(model);
