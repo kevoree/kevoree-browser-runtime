@@ -17,7 +17,7 @@
     "moment": "~2.9.0",
     "eventEmitter": "~4.2.11",
     "node-uuid": "~1.4.3",
-    "kevoree-kevscript": "~2.2.2",
+    "kevoree-kevscript": "v2.2.3",
     "kevoree-commons": "~2.1.2",
     "kevoree-core": "~7.0.4",
     "filer": "~0.0.41",
