@@ -42,4 +42,3 @@ angular.module('browserApp')
       KevoreeResolver.setDevMode(false);
     };
   });
-

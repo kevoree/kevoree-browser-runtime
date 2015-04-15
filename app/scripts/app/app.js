@@ -8,55 +8,55 @@
  */
 angular
     .module('browserApp', [
-      'ngAnimate',
-      'ngCookies',
-      'ngResource',
-      'ngSanitize',
-      'ngTouch',
-      'ui.bootstrap',
-      'ui.router',
-      'ui.codemirror',
-      'ui.utils',
-      'ui-notification'
+        'ngAnimate',
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngTouch',
+        'ui.bootstrap',
+        'ui.router',
+        'ui.codemirror',
+        'ui.utils',
+        'ui-notification'
     ])
     .run(function ($rootScope, Notification, WS_HOST, WS_PORT, VERSION) {
-      $rootScope.VERSION = VERSION;
-      $rootScope.APP_ID = uuid.v4();
-      $rootScope.WS_HOST = WS_HOST;
-      $rootScope.WS_PORT = WS_PORT;
+        $rootScope.VERSION = VERSION;
+        $rootScope.APP_ID = uuid.v4();
+        $rootScope.WS_HOST = WS_HOST;
+        $rootScope.WS_PORT = WS_PORT;
 
-      Notification.config({top: 60});
-      var bootstrapContainer = angular.element('#bootstrap-container');
-      bootstrapContainer.fadeOut(function () {
-        bootstrapContainer.remove();
-      });
+        Notification.config({top: 60});
+        var bootstrapContainer = angular.element('#bootstrap-container');
+        bootstrapContainer.fadeOut(function () {
+            bootstrapContainer.remove();
+        });
     })
     .config(function ($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
 
-      $stateProvider
-          .state('app', {
-            abstract: true,
-            views: {
-              'navbar@': {
-                templateUrl: 'scripts/app/navbar/navbar.html',
-                controller: 'NavBarCtrl'
-              }
-            }
-          });
+        $stateProvider
+            .state('app', {
+                abstract: true,
+                views: {
+                    'navbar@': {
+                        templateUrl: 'scripts/app/navbar/navbar.html',
+                        controller: 'NavBarCtrl'
+                    }
+                }
+            });
     })
     .provider('runtimeStates', function ($stateProvider) {
-      var states = {};
-      this.$get = function () {
-        return {
-          state: function (name, state) {
-            states[name] = 'defined';
-            return $stateProvider.state(name, state);
-          },
+        var states = {};
+        this.$get = function () {
+            return {
+                state: function (name, state) {
+                    states[name] = 'defined';
+                    return $stateProvider.state(name, state);
+                },
 
-          has: function (name) {
-            return typeof states[name] !== 'undefined';
-          }
+                has: function (name) {
+                    return typeof states[name] !== 'undefined';
+                }
+            };
         };
-      };
     });
