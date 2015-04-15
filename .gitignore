@@ -32,3 +32,4 @@ dist
 bower_components
 .idea
 *.iml
+apk/

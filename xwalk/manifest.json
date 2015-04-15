@@ -3,17 +3,12 @@
   "xwalk_version": "1.0.4",
   "icons": [
     {
-      "src": "images/kevoree.fed4db27.png",
-      "sizes": "61x35",
-      "type": "image/png",
-      "density": "4.0"
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/png"
     }
   ],
   "start_url": "index.html",
   "display": "fullscreen",
-  "orientation": "any",
-  "xwalk_hosts": [
-    "http://registry.kevoree.org/",
-    "http://registry.npmjs.org/"
-  ]
+  "orientation": "any"
 }
