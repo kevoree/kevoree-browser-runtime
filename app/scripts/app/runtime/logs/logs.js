@@ -3,7 +3,7 @@ angular.module('browserApp')
     $stateProvider
       .state('logs', {
         parent: 'runtime',
-        url: '/logs',
+        url: '^/logs',
         templateUrl: 'scripts/app/runtime/logs/logs.html',
         controller: 'RuntimeLogsCtrl'
       });

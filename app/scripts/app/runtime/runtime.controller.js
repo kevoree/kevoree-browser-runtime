@@ -6,9 +6,7 @@
  * Controller of the browserApp Runtime  page
  */
 angular.module('browserApp')
-  .controller('RuntimeCtrl', ['$scope' , '$state', '$interval', 'runtimeStates', 'kCore', 'KevoreeResolver',
-    function ($scope, $state, $interval, runtimeStates, kCore, KevoreeResolver) {
-      $scope.$state = $state;
+    .controller('RuntimeCtrl', function ($scope, $state, $interval, runtimeStates, kCore) {
       $scope.instances = {};
       $scope.hasInstances = function () {
         return Object.keys($scope.instances).length > 0;
@@ -19,30 +17,12 @@ angular.module('browserApp')
 
         Object.keys($scope.instances).forEach(function (path) {
           var instance = $scope.instances[path];
-            if (typeof instance.uiController === 'function') {
-              if (!runtimeStates.has(instance.getName())) {
-                var meta = instance.getModelEntity().typeDefinition.select('deployUnits[name=*]/filters[name=platform,value=javascript]');
-                runtimeStates
-                  .state(instance.getName(), {
-                    parent: 'runtime',
-                    url: '/'+instance.getName(),
-                    templateProvider: function () {
-                      return KevoreeResolver
-                        .resolveUI(meta.get(0).eContainer())
-                        .then(function (html) {
-                          return html;
-                        }, function () {
-                          return '<div class="alert alert-danger">Unable to load '+instance.getName()+' view</div>';
-                        })
-                    },
-                    controllerProvider: function () {
-                      return $scope.instances[path].uiController();
-                    }
-                  });
-              }
-            } else {
+          if (instance) {
+            var elem = kCore.getCurrentModel().findByPath(path);
+            if (elem && elem.getRefInParent() !== 'components') {
               delete $scope.instances[path];
             }
+          }
         });
       }
 
@@ -66,5 +46,5 @@ angular.module('browserApp')
         // redirect to main if runtime is not started
         $state.go('main');
       }
-    }]);
+    });
 

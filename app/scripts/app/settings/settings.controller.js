@@ -14,10 +14,14 @@ angular.module('browserApp')
       };
 
       $scope.isDUsCacheEmpty = true;
-      kCache.getAll(function (entries) {
-        $timeout(function () {
-          $scope.isDUsCacheEmpty = (entries.length === 0);
-        });
+      kCache.getAll(function (err, entries) {
+        if (err) {
+          // TODO handle error
+        } else {
+          $timeout(function () {
+            $scope.isDUsCacheEmpty = (entries.length === 0);
+          });
+        }
       });
 
       $scope.clearKevSCache = function () {
@@ -25,10 +29,14 @@ angular.module('browserApp')
       };
 
       $scope.clearDUsCache = function () {
-        kCache.clear(function () {
-          $timeout(function () {
-            $scope.isDUsCacheEmpty = true;
-          });
+        kCache.clear(function (err) {
+          if (err) {
+            // TODO handle error
+          } else {
+            $timeout(function () {
+              $scope.isDUsCacheEmpty = true;
+            });
+          }
         });
       };
 

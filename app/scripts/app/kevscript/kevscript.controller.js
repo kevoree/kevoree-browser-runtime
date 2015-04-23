@@ -123,7 +123,14 @@ angular.module('browserApp')
         styleActiveLine: true,
         extraKeys: {
           'Ctrl-Space': 'autocomplete',
-          'Ctrl-S': saveFileCmd
+          'Ctrl-S': saveFileCmd,
+          'Ctrl-Enter': function () {
+            if (kCore.isStarted && !kCore.isDestroyed()) {
+              $scope.merge();
+            } else {
+              $scope.start();
+            }
+          }
         },
         theme: 'kevscript'
       };

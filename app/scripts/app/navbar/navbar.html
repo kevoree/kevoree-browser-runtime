@@ -13,12 +13,12 @@
       <li data-ng-class="{active: $state.includes('main') || $state.includes('runtime')}">
         <a data-ui-sref="main">Browser Runtime</a>
       </li>
-      <li data-ng-class="{active: $state.includes('kevscript')}">
+      <li data-ui-sref-active="active">
         <a data-ui-sref="kevscript">KevScript Editor</a>
       </li>
     </ul>
     <ul class="nav navbar-right navbar-nav navbar-collapse collapse" data-collapse="isCollapsed">
-      <li data-ng-class="{active: $state.includes('settings')}">
+      <li data-ui-sref-active="active">
         <a data-ui-sref="settings">Settings</a>
       </li>
     </ul>

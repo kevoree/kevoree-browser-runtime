@@ -19,7 +19,7 @@ angular
         'ui.utils',
         'ui-notification'
     ])
-    .run(function ($rootScope, Notification, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
         $rootScope.APP_ID = uuid.v4();
         $rootScope.WS_HOST = WS_HOST;

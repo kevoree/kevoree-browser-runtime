@@ -1,17 +1,17 @@
 <div data-ng-cloak>
   <div class="sidebar">
     <ul class="nav nav-pills nav-stacked nav-sidebar">
-      <li data-ng-class="{active: $state.includes('dashboard')}">
+      <li data-ui-sref-active="active">
         <a data-ui-sref="dashboard">Dashboard: <strong>{{nodeName}}</strong></a>
       </li>
-      <li data-ng-class="{active: $state.includes('logs')}">
+      <li data-ui-sref-active="active">
         <a data-ui-sref="logs">Logs</a>
       </li>
       <li class="divider"></li>
       <li class="header">Components</li>
       <li class="info" data-ng-hide="hasInstances()">No running components</li>
-      <li data-ng-class="{active: $state.includes(instance.name)}" data-ng-repeat="instance in instances">
-        <a data-ui-sref="{{ instance.name }}">
+      <li  data-ui-sref-active="active" data-ng-repeat="instance in instances">
+        <a data-ui-sref="instance({ name: instance.name })">
           <span>{{ instance.name }}</span>
           <img class="pull-right" src="images/green_dot.png" data-ng-show="instance.isStarted()"/>
           <img class="pull-right" src="images/red_dot.png" data-ng-hide="instance.isStarted()"/>
