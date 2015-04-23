@@ -29,61 +29,52 @@ angular.module('browserApp')
                 function resolveProcess(resolve, reject) {
                     kCache.get(deployUnit, function (err, files) {
                         if (err) {
-                            console.warn('DeployUnits Cache Error: '+err.message);
                             TarGZ.load(
                                 NPM_REGISTRY_URL.replace(/{name}/g, deployUnit.name).replace(/{version}/g, deployUnit.version),
                                 function (files) {
                                     var js = null;
-                                    var rawConf = null;
-                                    var html = false;
-                                    for (var i=0; i < files.length; i++) {
-                                        var filename = files[i].filename.substr('package/browser/'.length, files[i].filename.length);
-                                        if (rawConf && js && html) {
-                                            break;
-                                        } else if (files[i].filename === 'package/browser/ui-config.json') {
-                                            rawConf = JSON.parse(files[i].data);
-                                            kCache.add(deployUnit, filename, files[i].data);
-                                            continue;
-                                        }
-                                        if (files[i].filename === 'package/browser/'+deployUnit.name+'.html') {
-                                            html = true;
-                                            kCache.add(deployUnit, filename, files[i].data);
-                                        }
-                                        if (files[i].filename === 'package/browser/'+deployUnit.name+'.min.js') {
-                                            js = files[i].data;
-                                            kCache.add(deployUnit, filename, files[i].data);
-                                        }
-                                    }
-
-                                    if (rawConf) {
-                                        files.forEach(function (file) {
-                                            var filename = file.filename.substr('package/browser/'.length, file.filename.length);
-                                            if (rawConf.scripts.indexOf(file.filename.substr(0, 'package/browser/'.length))) {
-                                                kCache.add(deployUnit, filename, file.data);
-                                            } else if (rawConf.styles.indexOf(file.filename.substr(0, 'package/browser/'.length))) {
-                                                kCache.add(deployUnit, filename, file.data);
+                                    async.each(
+                                        files,
+                                        function it(file, cb) {
+                                            if (file.filename === 'package/'+duFile) {
+                                                js = file.data;
                                             }
-                                        });
-                                    }
 
-                                    if (!js) {
-                                        reject(new Error('Unable to find '+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
-                                    } else {
-                                        resolve(js);
-                                    }
+                                            if (file.filename.startsWith('package/browser/')) {
+                                                kCache.add(
+                                                    deployUnit,
+                                                    file.filename.substr('package/browser/'.length, file.filename.length),
+                                                    file.data,
+                                                    cb);
+                                            } else {
+                                                cb();
+                                            }
+                                        },
+                                        function result(err) {
+                                            if (err) {
+                                                reject(err);
+                                            } else {
+                                                // each file are cached now
+                                                if (js) {
+                                                    resolve(js);
+                                                } else {
+                                                    reject(new Error('Unable to find '+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
+                                                }
+                                            }
+                                        }
+                                    );
                                 },
                                 null,
                                 function (err) {
                                     reject(err);
                                 });
                         } else {
-                            for (var i=0; i < files.length; i++) {
-                                if (files[i].name === deployUnit.name+'.min.js') {
-                                    resolve(files[i].data);
-                                    return;
-                                }
+                            var js = files[deployUnit.name+'.min.js'];
+                            if (js) {
+                                resolve(js);
+                            } else {
+                                reject(new Error('Unable to find cached '+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
                             }
-                            reject(new Error('Unable to find cached '+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
                         }
                     });
                 }
@@ -119,43 +110,26 @@ angular.module('browserApp')
                         if (err) {
                             reject(err);
                         } else {
-                            var ui = {
+                            var rawConf = files['ui-config.json'];
+                            var conf = {
                                 scripts:    [],
                                 styles:     [],
                                 depModules: []
                             };
-
-                            for (var i=0; i < files.length; i++) {
-                                if (files[i].name === 'ui-config.json') {
-                                    var conf = JSON.parse(files[i].data);
-                                    conf.scripts = conf.scripts || [];
-                                    conf.styles  = conf.styles  || [];
-                                    files.forEach(function (file) {
-                                        conf.scripts.forEach(function (script) {
-                                            console.log('script filename', file.name);
-                                            console.log('script', script);
-                                            if (file.name === script) {
-                                                ui.scripts.push(file.data);
-                                            }
-                                        });
-                                        conf.styles.forEach(function (style) {
-                                            console.log('style filename', file.name);
-                                            console.log('style', style);
-                                            if (file.name === style) {
-                                                ui.styles.push(file.data);
-                                            }
-                                        });
-                                    });
-                                    continue;
-                                }
-
-                                if (files[i].name === deployUnit.name+'.html') {
-                                    ui.html = files[i].data;
-                                }
+                            if (rawConf) {
+                                conf = JSON.parse(rawConf);
+                                conf.scripts = conf.scripts.map(function (script) {
+                                    return files[script];
+                                });
+                                conf.styles = conf.styles.map(function (style) {
+                                    return files[style];
+                                });
                             }
 
-                            if (ui.html) {
-                                resolve(ui);
+                            conf.html = files[deployUnit.name+'.html'];
+
+                            if (conf.html) {
+                                resolve(conf);
                             } else {
                                 reject(new Error('Unable to load UI for '+deployUnit.name+'@'+deployUnit.version));
                             }

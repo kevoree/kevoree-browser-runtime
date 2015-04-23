@@ -46,6 +46,21 @@ angular.module('browserApp')
             if (err) {
               callback(new Error('Unable to browse the filesystem cache at '+dir));
             } else {
+              function flatten(entries, prepend) {
+                var ret = [];
+                entries.forEach(function (entry) {
+                  if (entry.type === 'FILE') {
+                    entry.path = prepend+entry.path;
+                    ret.push(entry);
+                  } else {
+                    var res = flatten(entry.contents, prepend+entry.path+'/');
+                    ret = ret.concat(res);
+                  }
+                });
+                return ret;
+              }
+
+              entries = flatten(entries, '');
               async.map(
                   entries,
                   function it(entry, cb) {
@@ -53,7 +68,17 @@ angular.module('browserApp')
                       cb(err, { name: entry.path, data: data });
                     });
                   },
-                  callback
+                  function (err, files) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      var ret = {};
+                      files.forEach(function (file) {
+                        ret[file.name] = file.data;
+                      });
+                      callback(null, ret);
+                    }
+                  }
               );
             }
           });
