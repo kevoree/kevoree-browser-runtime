@@ -144,9 +144,9 @@ angular.module('browserApp')
                             .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/ui-config.json')
                             .then(
                             function (res) {
-                                var conf = {
-                                    depModules: res.data.depModules
-                                };
+                                res.data.scripts = res.data.scripts || [];
+                                res.data.styles = res.data.styles || [];
+                                res.data.depModules = res.data.depModules || [];
 
                                 res.data.scripts = res.data.scripts.map(function (path) {
                                     return 'http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+path;
@@ -159,17 +159,17 @@ angular.module('browserApp')
                                     if (err) {
                                         resolveProcess(resolve, reject);
                                     } else {
-                                        conf.scripts = scripts;
+                                        res.data.scripts = scripts;
                                         async.map(res.data.styles, httpGet, function (err, styles) {
                                             if (err) {
                                                 resolveProcess(resolve, reject);
                                             } else {
-                                                conf.styles = styles;
+                                                res.data.styles = styles;
                                                 $http
                                                     .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+deployUnit.name+'.html')
-                                                    .then(function (res) {
-                                                        conf.html = res.data;
-                                                        resolve(conf);
+                                                    .then(function (response) {
+                                                        res.data.html = response.data;
+                                                        resolve(res.data);
                                                     }, function () {
                                                         resolveProcess(resolve, reject);
                                                     });
@@ -179,7 +179,13 @@ angular.module('browserApp')
                                 });
                             },
                             function () {
-                                resolveProcess(resolve, reject);
+                                $http
+                                    .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+deployUnit.name+'.html')
+                                    .then(function (res) {
+                                        resolve({ html: res.data, scripts: [], styles: [], depModules: [] });
+                                    }, function () {
+                                        resolveProcess(resolve, reject);
+                                    });
                             });
                     } else {
                         resolveProcess(resolve, reject);
