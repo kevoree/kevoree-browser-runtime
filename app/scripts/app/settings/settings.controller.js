@@ -8,6 +8,8 @@
 angular.module('browserApp')
     .controller('SettingsCtrl', function ($scope, $timeout, kScript, kCache, KevoreeResolver) {
       $scope.devMode = KevoreeResolver.getDevMode();
+      $scope.readingCache = true;
+      $scope.clearDUCacheName = 'Reading';
 
       $scope.isKevSCacheEmpty = function () {
         return kScript.getCacheManager().getAll().length === 0;
@@ -15,13 +17,15 @@ angular.module('browserApp')
 
       $scope.isDUsCacheEmpty = true;
       kCache.getAll(function (err, entries) {
-        if (err) {
-          // TODO handle error
-        } else {
-          $timeout(function () {
+        $timeout(function () {
+          if (err) {
+            // TODO handle error
+          } else {
             $scope.isDUsCacheEmpty = (entries.length === 0);
-          });
-        }
+          }
+          $scope.readingCache = false;
+          $scope.clearDUCacheName = 'Clear';
+        });
       });
 
       $scope.clearKevSCache = function () {
@@ -29,14 +33,20 @@ angular.module('browserApp')
       };
 
       $scope.clearDUsCache = function () {
+        $scope.clearDUCacheName = 'Clearing';
+        $scope.readingCache = true;
         kCache.clear(function (err) {
-          if (err) {
-            // TODO handle error
-          } else {
-            $timeout(function () {
-              $scope.isDUsCacheEmpty = true;
-            });
-          }
+          $timeout(function () {
+            if (err) {
+              // TODO handle error
+            } else {
+              $timeout(function () {
+                $scope.isDUsCacheEmpty = true;
+              });
+            }
+            $scope.readingCache = false;
+            $scope.clearDUCacheName = 'Clear';
+          });
         });
       };
 

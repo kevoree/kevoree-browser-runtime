@@ -28,12 +28,16 @@
       <div class="input-group pull-right" data-ng-hide="isStarted || !isDestroyed">
         <input type="text" class="form-control" data-ng-model="runtime.nodeName" placeholder="Enter a node name" data-ui-keypress="{13: 'start()'}" data-ui-event="runtimeNodeNameEvents" data-ng-disabled="processing">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button" data-ng-click="start()" data-ng-disabled="processing">Start from KevScript <i class="fa fa-cog fa-spin" data-ng-show="processing"></i></button>
+          <button class="btn btn-default" type="button" data-ng-click="start()" data-ng-disabled="processing">
+            Start from KevScript <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
+          </button>
         </span>
       </div>
     </div>
     <div class="col-xs-offset-8" data-ng-show="isStarted && !isDestroyed">
-      <button class="btn btn-default pull-right" data-ng-click="merge()" data-ng-disabled="processing">Merge locally <i class="fa fa-cog fa-spin" data-ng-show="processing"></i></button>
+      <button class="btn btn-default pull-right" data-ng-click="merge()" data-ng-disabled="processing">
+        Merge locally <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
+      </button>
     </div>
   </div>
 </div>

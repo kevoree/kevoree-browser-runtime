@@ -28,7 +28,7 @@ angular.module('browserApp')
 
                 function resolveProcess(resolve, reject) {
                     kCache.get(deployUnit, function (err, files) {
-                        if (err) {
+                        if (err || Object.keys(files).length === 0) {
                             TarGZ.load(
                                 NPM_REGISTRY_URL.replace(/{name}/g, deployUnit.name).replace(/{version}/g, deployUnit.version),
                                 function (files) {

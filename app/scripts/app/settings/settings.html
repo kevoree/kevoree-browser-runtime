@@ -11,7 +11,9 @@
     </li>
     <li class="list-group-item">
       <strong>Clear DeployUnits cache</strong>
-      <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearDUsCache()" data-ng-disabled="isDUsCacheEmpty">Clear</button>
+      <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearDUsCache()" data-ng-disabled="isDUsCacheEmpty || readingCache">
+        {{ clearDUCacheName }} <i class="fa fa-cog" data-ng-show="readingCache" data-ng-class="(readingCache) ? 'fa-spin':''"></i>
+      </button>
     </li>
     <li class="list-group-item">
       <strong>Dev mode</strong>
