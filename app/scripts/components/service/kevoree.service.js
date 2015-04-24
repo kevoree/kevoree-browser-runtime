@@ -118,6 +118,9 @@ angular.module('browserApp')
                             };
                             if (rawConf) {
                                 conf = JSON.parse(rawConf);
+                                conf.scripts = conf.scripts || [];
+                                conf.styles = conf.styles || [];
+                                conf.depModules = conf.depModules || [];
                                 conf.scripts = conf.scripts.map(function (script) {
                                     return files[script];
                                 });
