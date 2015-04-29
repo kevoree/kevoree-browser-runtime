@@ -1,4 +1,4 @@
-<div data-ng-cloak>
+<div class="well" data-ng-cloak>
   <div class="row">
     <div class="col-xs-6">
       <h4>Platform details:</h4>
@@ -13,7 +13,7 @@
   <ul class="list-group">
     <li class="list-group-item">
       <strong>Started at</strong>
-      <span class="pull-right">{{startTime | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+      <span class="pull-right">{{ startTime | date:'dd/MM/yyyy HH:mm:ss' }}</span>
     </li>
     <li class="list-group-item">
       <strong>Uptime</strong>
@@ -21,16 +21,21 @@
     </li>
     <li class="list-group-item" data-ng-hide="isStarted()">
       <strong>Stopped at</strong>
-      <span class="pull-right">{{stopTime | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+      <span class="pull-right">{{ stopTime | date:'dd/MM/yyyy HH:mm:ss' }}</span>
     </li>
-    <li class="list-group-item">
-      <strong>Kevoree model</strong>
-      <span class="pull-right">
-        Open in
-        <a href="http://editor.kevoree.org/?host={{WS_HOST}}&port={{WS_PORT}}&path={{APP_ID}}" target="_blank">
-          Kevoree Web Editor <i class="fa fa-external-link"></i>
-        </a>
-      </span>
+    <li class="list-group-item clearfix" data-ng-show="grps.length > 0">
+      <strong>Attached groups</strong>
+      <div class="pull-right">
+        <ul class="list-unstyled">
+          <li data-ng-repeat="grp in grps">
+            Open in
+            <a href="http://editor.kevoree.org/?host={{grp.host}}&port={{grp.port}}&path={{grp.path}}" target="_blank">
+            Kevoree Web Editor <i class="fa fa-external-link"></i>
+            </a>
+             using <strong>{{ grp.name }}</strong>
+          </li>
+        </ul>
+      </div>
     </li>
   </ul>
 </div>

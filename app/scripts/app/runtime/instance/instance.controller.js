@@ -21,6 +21,7 @@ angular.module('browserApp')
                 .then(function (ui) {
                     if (ui.html && ui.styles && ui.scripts && ui.depModules) {
                         iframeElem.parent().css('height', '100%');
+                        iframeElem.parent().parent().css('height', '100%');
                         window.compInstance = function () {
                             return kCore.instances[comp.path()];
                         };
@@ -39,6 +40,7 @@ angular.module('browserApp')
                         ui.scripts.forEach(function (script) {
                             iframe.document.write('<script type="application/javascript">'+script+'</script>');
                         });
+                        iframe.document.write(ui.html);
                         iframe.document.write(
                             '<script type="application/javascript">\n' +
                             'angular.module(\'compApp\', parent.depModules);\n' +
@@ -50,7 +52,6 @@ angular.module('browserApp')
                             '</script>' +
                             '</head>' +
                             '<body data-ng-app="compApp" data-ng-controller="MainCtrl">');
-                        iframe.document.write(ui.html);
                         iframe.document.write('</body>');
                         iframe.document.close();
                     } else {
@@ -78,7 +79,6 @@ angular.module('browserApp')
                     }
 
                 }, function (err) {
-                    console.log('instance.controller.js error', err);
                     iframe.document.open();
                     iframe.document.write(
                         '<head>' +

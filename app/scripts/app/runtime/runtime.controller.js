@@ -6,7 +6,7 @@
  * Controller of the browserApp Runtime  page
  */
 angular.module('browserApp')
-    .controller('RuntimeCtrl', function ($scope, $state, $interval, runtimeStates, kCore) {
+    .controller('RuntimeCtrl', function ($scope, $state, $interval, kCore) {
       $scope.instances = {};
       $scope.hasInstances = function () {
         return Object.keys($scope.instances).length > 0;

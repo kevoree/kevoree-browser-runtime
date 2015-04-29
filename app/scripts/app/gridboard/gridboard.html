@@ -1,0 +1,8 @@
+<ul data-gridster="gridsterOptions">
+    <li class="box" data-gridster-item="widget" data-ng-controller="WidgetCtrl" data-ng-repeat="widget in widgets">
+        <div class="box-header">
+            <h4>{{ widget.name }}</h4>
+        </div>
+        <div id="{{ widget.name }}" class="box-content"></div>
+    </li>
+</ul>

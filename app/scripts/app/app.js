@@ -17,7 +17,8 @@ angular
         'ui.router',
         'ui.codemirror',
         'ui.utils',
-        'ui-notification'
+        'ui-notification',
+        'gridster'
     ])
     .run(function ($rootScope, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
