@@ -139,11 +139,31 @@ body {
   border-bottom: 1px solid #ccc;
   cursor: move;
   position: relative;
+  overflow: hidden;
+}
+
+.box-header-sizing {
+  float: left;
+  height: 100%;
+  padding-right: 5px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.box-header-sizing input[type=number] {
+  margin-top: 2px;
+  width: 40px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  -webkit-appearance: none;
+  background-color: transparent;
 }
 
 .box-header h4 {
+  float: left;
   margin: 0;
   padding-top: 6px;
+  padding-left: 5px;
 }
 
 .box-content {
