@@ -18,11 +18,13 @@ angular.module('browserApp')
             Object.keys(kCore.instances).forEach(function (path) {
                 var elem = kCore.getCurrentModel().findByPath(path);
                 if (elem && elem.getRefInParent() === 'components') {
-                    $scope.widgets.push({
-                        path: path,
-                        name: elem.name,
-                        sizeX: 1,
-                        sizeY: 1
+                    $timeout(function () {
+                        $scope.widgets.push({
+                            path: path,
+                            name: elem.name,
+                            sizeX: 1,
+                            sizeY: 1
+                        });
                     });
                 }
             });
