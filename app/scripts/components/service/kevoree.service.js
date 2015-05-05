@@ -109,6 +109,19 @@ angular.module('browserApp')
                             };
                             if (rawConf) {
                                 conf = JSON.parse(rawConf);
+
+                                if (!conf.layout) {
+                                    conf.layout = { width: 1, height: 1 };
+                                } else {
+                                    if (!conf.layout.width) {
+                                        conf.layout.width = 1;
+                                    }
+
+                                    if (!conf.layout.height) {
+                                        conf.layout.height = 1;
+                                    }
+                                }
+                                
                                 conf.scripts = conf.scripts || [];
                                 conf.styles = conf.styles || [];
                                 conf.depModules = conf.depModules || [];
@@ -141,15 +154,22 @@ angular.module('browserApp')
 
                 return $q(function (resolve, reject) {
                     if (devMode) {
-                        function asyncDevModeHandler(url, cb) {
-
-                        }
-
                         kLogger.debug('KevoreeResolver', 'DevMode enabled: checking localhost:59000 before registry.npmjs.org');
                         $http
                             .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/ui-config.json')
                             .then(
                             function (res) {
+                                if (!res.data.layout) {
+                                    res.data.layout = { width: 1, height: 1 };
+                                } else {
+                                    if (!res.data.layout.width) {
+                                        res.data.layout.width = 1;
+                                    }
+
+                                    if (!res.data.layout.height) {
+                                        res.data.layout.height = 1;
+                                    }
+                                }
                                 res.data.scripts = res.data.scripts || [];
                                 res.data.styles = res.data.styles || [];
                                 res.data.depModules = res.data.depModules || [];

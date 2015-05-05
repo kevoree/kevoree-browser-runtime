@@ -67,6 +67,11 @@ angular.module('browserApp')
                     .resolveUI(obj.depU)
                     .then(function (ui) {
                         if (ui.html && ui.styles && ui.scripts && ui.depModules) {
+                            $timeout(function () {
+                                $scope.widget.sizeX = ui.layout.width;
+                                $scope.widget.sizeY = ui.layout.height;
+                            });
+
                             window.comps = window.comps || {};
                             window.comps[obj.comp.path()] = {
                                 depModules: ui.depModules,
