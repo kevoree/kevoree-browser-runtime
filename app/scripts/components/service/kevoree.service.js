@@ -2,15 +2,6 @@ angular.module('browserApp')
     .service('KevoreeResolver', function ($http, $q, kCache, kLogger, storage, NPM_REGISTRY_URL) {
         var LS_DEV_MODE = 'dev_mode';
 
-        function httpGet(url, cb) {
-            $http.get(url)
-                .then(function (res) {
-                    cb(null, res.data);
-                }, function (err) {
-                    cb(err);
-                });
-        }
-
         return {
             /**
              * boolean devMode property
@@ -122,10 +113,18 @@ angular.module('browserApp')
                                 conf.styles = conf.styles || [];
                                 conf.depModules = conf.depModules || [];
                                 conf.scripts = conf.scripts.map(function (script) {
-                                    return files[script];
+                                    if (script.startsWith('//') || script.startsWith('http://') || script.startsWith('https://')) {
+                                        return '<script src="'+script+'" type="application/javascript">';
+                                    } else {
+                                        return '<script type="application/javascript">'+files[script]+'</script>';
+                                    }
                                 });
                                 conf.styles = conf.styles.map(function (style) {
-                                    return files[style];
+                                    if (style.startsWith('//') || style.startsWith('http://') || style.startsWith('https://')) {
+                                        return '<link rel="stylesheet" href="'+style+'" type="text/css">';
+                                    } else {
+                                        return '<style type="text/css">'+files[style]+'</style>';
+                                    }
                                 });
                             }
 
@@ -142,6 +141,10 @@ angular.module('browserApp')
 
                 return $q(function (resolve, reject) {
                     if (devMode) {
+                        function asyncDevModeHandler(url, cb) {
+
+                        }
+
                         kLogger.debug('KevoreeResolver', 'DevMode enabled: checking localhost:59000 before registry.npmjs.org');
                         $http
                             .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/ui-config.json')
@@ -152,34 +155,28 @@ angular.module('browserApp')
                                 res.data.depModules = res.data.depModules || [];
 
                                 res.data.scripts = res.data.scripts.map(function (path) {
-                                    return 'http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+path;
-                                });
-                                res.data.styles = res.data.styles.map(function (path) {
-                                    return 'http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+path;
-                                });
-
-                                async.map(res.data.scripts, httpGet, function (err, scripts) {
-                                    if (err) {
-                                        resolveProcess(resolve, reject);
+                                    if (path.startsWith('//') || path.startsWith('http://') || path.startsWith('https://')) {
+                                        return '<script src="'+path+'" type="application/javascript"></script>';
                                     } else {
-                                        res.data.scripts = scripts;
-                                        async.map(res.data.styles, httpGet, function (err, styles) {
-                                            if (err) {
-                                                resolveProcess(resolve, reject);
-                                            } else {
-                                                res.data.styles = styles;
-                                                $http
-                                                    .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+deployUnit.name+'.html')
-                                                    .then(function (response) {
-                                                        res.data.html = response.data;
-                                                        resolve(res.data);
-                                                    }, function () {
-                                                        resolveProcess(resolve, reject);
-                                                    });
-                                            }
-                                        });
+                                        return '<script src="http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+path+'"></script>';
                                     }
                                 });
+                                res.data.styles = res.data.styles.map(function (path) {
+                                    if (path.startsWith('//') || path.startsWith('http://') || path.startsWith('https://')) {
+                                        return '<link href="'+path+'" type="text/css" rel="stylesheet">';
+                                    } else {
+                                        return '<link href="http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+path+'" type="text/css" rel="stylesheet">';
+                                    }
+                                });
+
+                                $http
+                                    .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+deployUnit.name+'.html')
+                                    .then(function (response) {
+                                        res.data.html = response.data;
+                                        resolve(res.data);
+                                    }, function () {
+                                        resolveProcess(resolve, reject);
+                                    });
                             },
                             function () {
                                 $http

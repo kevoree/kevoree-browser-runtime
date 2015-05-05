@@ -76,12 +76,12 @@ angular.module('browserApp')
 
                             var styles = '';
                             ui.styles.forEach(function (style) {
-                                styles += '<style type="text/css">'+style+'</style>';
+                                styles += style;
                             });
 
                             var scripts = '';
                             ui.scripts.forEach(function (script) {
-                                scripts += '<script type="application/javascript">'+script+'</script>';
+                                scripts += script;
                             });
 
                             iframeContainer = angular.element('#'+obj.comp.name).get(0);
@@ -100,7 +100,6 @@ angular.module('browserApp')
                                 styles +
                                 '<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>' +
                                 scripts +
-                                '</script>' +
                                 '</head>'+
                                 '<body data-ng-app="compApp" data-ng-controller="MainCtrl">' +
                                 ui.html +

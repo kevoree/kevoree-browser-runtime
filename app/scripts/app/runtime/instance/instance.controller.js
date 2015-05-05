@@ -33,12 +33,12 @@ angular.module('browserApp')
                             '<head>' +
                             '<style type="text/css">body { margin: 0; }</style>');
                         ui.styles.forEach(function (style) {
-                            iframe.document.write('<style type="text/css">'+style+'</style>');
+                            iframe.document.write(style);
                         });
                         iframe.document.write(
                             '<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>');
                         ui.scripts.forEach(function (script) {
-                            iframe.document.write('<script type="application/javascript">'+script+'</script>');
+                            iframe.document.write(script);
                         });
                         iframe.document.write(ui.html);
                         iframe.document.write(
