@@ -105,26 +105,26 @@ angular.module('browserApp')
                             var conf = {
                                 scripts:    [],
                                 styles:     [],
-                                depModules: []
+                                depModules: [],
+                                layout:     { width: 1, height: 1 }
                             };
                             if (rawConf) {
                                 conf = JSON.parse(rawConf);
-
-                                if (!conf.layout) {
-                                    conf.layout = { width: 1, height: 1 };
-                                } else {
-                                    if (!conf.layout.width) {
-                                        conf.layout.width = 1;
-                                    }
-
-                                    if (!conf.layout.height) {
-                                        conf.layout.height = 1;
-                                    }
-                                }
-                                
-                                conf.scripts = conf.scripts || [];
-                                conf.styles = conf.styles || [];
+                                conf.scripts    = conf.scripts    || [];
+                                conf.styles     = conf.styles     || [];
                                 conf.depModules = conf.depModules || [];
+                                conf.layout     = conf.layout     || { width: 1, height: 1 };
+
+                                if (typeof conf.layout.width !== 'number') {
+                                    conf.layout.width = 1;
+                                    console.warn('[service] KevoreeResolver: layout width must be a number');
+                                }
+
+                                if (typeof conf.layout.height !== 'number') {
+                                    conf.layout.height = 1;
+                                    console.warn('[service] KevoreeResolver: layout height must be a number');
+                                }
+
                                 conf.scripts = conf.scripts.map(function (script) {
                                     if (script.startsWith('//') || script.startsWith('http://') || script.startsWith('https://')) {
                                         return '<script src="'+script+'" type="application/javascript">';

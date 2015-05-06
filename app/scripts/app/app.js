@@ -20,7 +20,7 @@ angular
         'ui-notification',
         'gridster'
     ])
-    .run(function ($rootScope, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, kCore, kScript, storage, Notification, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
         $rootScope.APP_ID = uuid.v4();
         $rootScope.WS_HOST = WS_HOST;
@@ -31,6 +31,17 @@ angular
         bootstrapContainer.fadeOut(function () {
             bootstrapContainer.remove();
         });
+
+        var version = storage.get('version');
+        if (!version) {
+            storage.set('version', VERSION);
+            kScript.getCacheManager().clear();
+        } else {
+            if (version !== VERSION) {
+                kScript.getCacheManager().clear();
+                storage.set('version', VERSION);
+            }
+        }
     })
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
