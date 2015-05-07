@@ -13,13 +13,14 @@ angular.module('browserApp')
           msg = tag;
           tag = this.tag;
         }
-        this.logs.push({
+        var log = {
           level: 'default',
           tag: tag,
           msg: msg,
           time: new Date()
-        });
-        this.emitter.emitEvent('info', [tag, msg]);
+        };
+        this.logs.push(log);
+        this.emitter.emitEvent('log', [log]);
       },
 
       warn: function (tag, msg) {
@@ -27,13 +28,14 @@ angular.module('browserApp')
           msg = tag;
           tag = this.tag;
         }
-        this.logs.push({
+        var log = {
           level: 'warning',
           tag: tag,
           msg: msg,
           time: new Date()
-        });
-        this.emitter.emitEvent('warn', [tag, msg]);
+        };
+        this.logs.push(log);
+        this.emitter.emitEvent('log', [log]);
       },
 
       debug: function (tag, msg) {
@@ -41,13 +43,14 @@ angular.module('browserApp')
           msg = tag;
           tag = this.tag;
         }
-        this.logs.push({
+        var log = {
           level: 'info',
           tag: tag,
           msg: msg,
           time: new Date()
-        });
-        this.emitter.emitEvent('debug', [tag, msg]);
+        };
+        this.logs.push(log);
+        this.emitter.emitEvent('log', [log]);
       },
 
       error: function (tag, msg) {
@@ -55,13 +58,14 @@ angular.module('browserApp')
           msg = tag;
           tag = this.tag;
         }
-        this.logs.push({
+        var log = {
           level: 'danger',
           tag: tag,
           msg: msg,
           time: new Date()
-        });
-        this.emitter.emitEvent('error', [tag, msg]);
+        };
+        this.logs.push(log);
+        this.emitter.emitEvent('log', [log]);
       },
 
       on: function (event, callback) {

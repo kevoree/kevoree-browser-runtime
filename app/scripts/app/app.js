@@ -20,9 +20,9 @@ angular
         'ui-notification',
         'gridster'
     ])
-    .run(function ($rootScope, $window, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, $window, kCore, randomId, Notification, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
-        $rootScope.APP_ID = uuid.v4();
+        $rootScope.APP_ID = randomId.gen();
         $rootScope.WS_HOST = WS_HOST;
         $rootScope.WS_PORT = WS_PORT;
 

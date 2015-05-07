@@ -24,6 +24,9 @@
       </tr>
       </thead>
       <tbody>
+      <tr data-ng-show="logs.length === 0" class="default">
+        <td class="text-center" colspan="3"><em>- empty -</em></td>
+      </tr>
       <tr data-ng-class="log.level" data-ng-repeat="log in logs | filter:logFilter | orderBy:'time':reverse" class="default">
         <td>{{ log.time | date:'HH:mm:ss:sss' }}</td>
         <td>{{ log.tag }}</td>
