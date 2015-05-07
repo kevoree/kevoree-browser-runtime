@@ -20,6 +20,7 @@ angular.module('browserApp')
         $timeout(function () {
           if (err) {
             // TODO handle error
+            console.warn(err);
           } else {
             $scope.isDUsCacheEmpty = (entries.length === 0);
           }
@@ -39,10 +40,9 @@ angular.module('browserApp')
           $timeout(function () {
             if (err) {
               // TODO handle error
+              console.warn(err);
             } else {
-              $timeout(function () {
-                $scope.isDUsCacheEmpty = true;
-              });
+              $scope.isDUsCacheEmpty = true;
             }
             $scope.readingCache = false;
             $scope.clearDUCacheName = 'Clear';

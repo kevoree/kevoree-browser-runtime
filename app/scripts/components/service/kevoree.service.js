@@ -15,7 +15,7 @@ angular.module('browserApp')
              */
             resolve: function (deployUnit) {
                 var devMode = this.devMode;
-                var duFile = 'browser/'+deployUnit.name+'.min.js';
+                var duFile = deployUnit.name+'.min.js';
 
                 function resolveProcess(resolve, reject) {
                     kCache.get(deployUnit, function (err, files) {
@@ -24,36 +24,28 @@ angular.module('browserApp')
                                 NPM_REGISTRY_URL.replace(/{name}/g, deployUnit.name).replace(/{version}/g, deployUnit.version),
                                 function (files) {
                                     var js = null;
-                                    async.each(
-                                        files,
-                                        function it(file, cb) {
-                                            if (file.filename === 'package/'+duFile) {
+                                    var dbFiles = {};
+                                    files.forEach(function (file) {
+                                        if (file.filename.startsWith('package/browser/')) {
+                                            if (file.filename === 'package/browser/'+duFile) {
                                                 js = file.data;
                                             }
 
-                                            if (file.filename.startsWith('package/browser/')) {
-                                                kCache.add(
-                                                    deployUnit,
-                                                    file.filename.substr('package/browser/'.length, file.filename.length),
-                                                    file.data,
-                                                    cb);
-                                            } else {
-                                                cb();
-                                            }
-                                        },
-                                        function result(err) {
-                                            if (err) {
-                                                reject(err);
-                                            } else {
-                                                // each file are cached now
-                                                if (js) {
-                                                    resolve(js);
-                                                } else {
-                                                    reject(new Error('Unable to find '+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
-                                                }
-                                            }
+                                            var filename = file.filename.substr('package/browser/'.length, file.filename.length);
+                                            dbFiles[filename] = file.data;
                                         }
-                                    );
+                                    });
+
+                                    if (js) {
+                                        kCache.add(deployUnit, dbFiles, function (err) {
+                                            if (err) {
+                                                kLogger.error('KevoreeResolver', 'Unable to cache '+deployUnit.name+'@'+deployUnit.version);
+                                            }
+                                        });
+                                        resolve(js);
+                                    } else {
+                                        reject(new Error('Unable to find browser/'+duFile+' for '+deployUnit.name+'@'+deployUnit.version));
+                                    }
                                 },
                                 null,
                                 function (err) {
