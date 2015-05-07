@@ -13,8 +13,6 @@ angular.module('browserApp')
          */
         add: function (du, files, callback) {
           callback = callback || function () { /* noop */ };
-          console.log('add', du.name, du.version, files);
-
           db.deployUnit
               .put({
                 name: du.name,
@@ -36,8 +34,6 @@ angular.module('browserApp')
          */
         get: function (du, callback) {
           callback = callback || function () { /* noop */ };
-          console.log('get', du.name, du.version);
-
           db.deployUnit
               .where('[name+version]')
               .equals([du.name, du.version])

@@ -20,7 +20,7 @@ angular
         'ui-notification',
         'gridster'
     ])
-    .run(function ($rootScope, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, $window, kCore, Notification, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
         $rootScope.APP_ID = uuid.v4();
         $rootScope.WS_HOST = WS_HOST;
@@ -31,6 +31,20 @@ angular
         bootstrapContainer.fadeOut(function () {
             bootstrapContainer.remove();
         });
+
+        $window.onbeforeunload = function (e) {
+            if (kCore.isStarted()) {
+                var message = "Kevoree is still running";
+                e = e || window.event;
+
+                // For IE and Firefox prior to version 4
+                if (e) {
+                    e.returnValue = message;
+                }
+                // For Safari
+                return message;
+            }
+        };
     })
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
