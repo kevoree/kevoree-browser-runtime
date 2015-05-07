@@ -3,7 +3,7 @@ angular.module('browserApp')
 
 .constant('APP_NAME', 'BrowserRuntime')
 
-.constant('VERSION', '1.4.1')
+.constant('VERSION', '1.4.2')
 
 .constant('GROUP_NAME', 'sync')
 
