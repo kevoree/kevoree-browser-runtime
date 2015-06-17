@@ -20,13 +20,12 @@ angular
         'ui-notification',
         'gridster'
     ])
-    .run(function ($rootScope, $window, kCore, randomId, Notification, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, $window, kCore, randomId, WS_HOST, WS_PORT, VERSION) {
         $rootScope.VERSION = VERSION;
         $rootScope.APP_ID = randomId.gen();
         $rootScope.WS_HOST = WS_HOST;
         $rootScope.WS_PORT = WS_PORT;
 
-        Notification.config({top: 60});
         var bootstrapContainer = angular.element('#bootstrap-container');
         bootstrapContainer.fadeOut(function () {
             bootstrapContainer.remove();
@@ -46,7 +45,7 @@ angular
             }
         };
     })
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, NotificationProvider) {
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
@@ -59,6 +58,8 @@ angular
                     }
                 }
             });
+
+        NotificationProvider.setOptions({ startTop: 60, replaceMessage: true });
     })
     .provider('runtimeStates', function ($stateProvider) {
         var states = {};
