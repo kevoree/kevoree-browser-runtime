@@ -1,16 +1,9 @@
-<ul data-gridster="gridsterOptions">
-    <li class="box" data-gridster-item="widget" data-ng-controller="WidgetCtrl" data-ng-repeat="widget in widgets">
-        <div class="box-header">
-            <div class="box-header-sizing">
-                <div class="box-header-sizing">
-                    <input type="number" data-ng-model="widget.sizeX">
-                </div>
-                <div class="box-header-sizing">
-                    <input type="number" data-ng-model="widget.sizeY">
-                </div>
-            </div>
-            <h4>{{ widget.name }}</h4>
+<div data-gridster="gridsterOpts">
+    <div class="comp-tile-container" data-gridster-item="widget" data-ng-repeat="widget in widgets">
+        <div class="comp-tile-overlay comp-tile-overlay-hidden"></div>
+        <div class="comp-tile-header">
+            <span class="name"><strong>{{ widget.name }}</strong></span>
         </div>
-        <div id="{{ widget.name }}" class="box-content"></div>
-    </li>
-</ul>
+        <div class="comp-tile" data-comp-tile data-name="widget.name" data-path="widget.path"></div>
+    </div>
+</div>

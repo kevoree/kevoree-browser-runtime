@@ -1,6 +1,3 @@
-// Generated on 2015-02-19 using generator-angular 0.11.0
-'use strict';
-
 // # Globbing
 // for performance reasons we're only matching one level down:
 // 'test/spec/**/*.js'
@@ -67,7 +64,7 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 8080,
+        port: 9090,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729
