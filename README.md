@@ -3,7 +3,13 @@
 ## [Demo](http://runjs.kevoree.org)
 
 ### Documentation
-TODO
+```sh
+# only once :
+npm install # retrieve the dependencies
+bower install
+
+grunt serve
+```
 
 ### DevMode Documentation
 Go to **Settings** and `enable` **DevMode**  
