@@ -1,44 +1,47 @@
-<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well" data-ng-cloak>
-  <div class="row-fluid clearfix" data-ng-hide="isStarted || !isDestroyed">
-    <div class="col-xs-6">
-      <h5>Write a <strong>KevScript</strong> and start from it:</h5>
-    </div>
-    <div class="col-xs-offset-8">
-      <button class="btn btn-default pull-right" data-ng-click="uploadKevscript()">Upload a KevScript &nbsp;<i class="fa fa-upload"></i></button>
-    </div>
-  </div>
-  <div class="row-fluid clearfix" data-ng-show="isStarted && isDestroyed">
-    <div class="col-xs-12">
-      <h5>Write a <strong>KevScript</strong> and merge it locally:</h5>
-    </div>
-  </div>
-  <div class="alert alert-danger" data-ng-show="parseError" style="margin-top: 20px">
-    <button type="button" class="close" data-ng-click="closeParseError()"><span>&times;</span></button>
-    {{parseError}}
-  </div>
-  <div class="row-fluid">
-    <div id="kevscript-editor" data-ui-codemirror="{onLoad: editorLoaded}" data-ui-codemirror-opts="editorOptions" data-ng-model="kevscript"></div>
-  </div>
-  <div class="row-fluid clearfix">
-    <div class="col-lg-offset-8 col-md-offset-7 col-sm-offset-6">
-      <div class="alert alert-danger" data-ng-show="runtimeError">
-        <button type="button" class="close" data-ng-click="closeRuntimeError()"><span>&times;</span></button>
-        {{runtimeError}}
+<div class="inner-container">
+    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well" data-ng-cloak>
+      <div class="row-fluid clearfix" data-ng-hide="isStarted || !isDestroyed">
+        <div class="col-xs-6">
+          <h5>Write a <strong>KevScript</strong> and start from it:</h5>
+        </div>
+        <div class="col-xs-offset-8">
+          <button class="btn btn-default pull-right" data-ng-click="uploadKevscript()">Upload a KevScript &nbsp;<i class="fa fa-upload"></i></button>
+        </div>
       </div>
-      <div class="input-group pull-right" data-ng-hide="isStarted || !isDestroyed">
-        <input type="text" class="form-control" data-ng-model="runtime.nodeName" placeholder="Enter a node name" data-ui-keypress="{13: 'start()'}" data-ui-event="runtimeNodeNameEvents" data-ng-disabled="processing">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" data-ng-click="start()" data-ng-disabled="processing">
-            Start from KevScript <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
+      <div class="row-fluid clearfix" data-ng-show="isStarted && isDestroyed">
+        <div class="col-xs-12">
+          <h5>Write a <strong>KevScript</strong> and merge it locally:</h5>
+        </div>
+      </div>
+      <div class="alert alert-danger" data-ng-show="parseError" style="margin-top: 20px">
+        <button type="button" class="close" data-ng-click="closeParseError()"><span>&times;</span></button>
+        {{parseError}}
+      </div>
+      <div class="row-fluid">
+        <div id="kevscript-editor" data-ui-codemirror="{onLoad: editorLoaded}" data-ui-codemirror-opts="editorOptions" data-ng-model="kevscript"></div>
+      </div>
+      <div class="row-fluid clearfix">
+        <div class="col-lg-offset-8 col-md-offset-7 col-sm-offset-6">
+          <div class="alert alert-danger" data-ng-show="runtimeError">
+            <button type="button" class="close" data-ng-click="closeRuntimeError()"><span>&times;</span></button>
+            {{runtimeError}}
+          </div>
+          <div class="input-group pull-right" data-ng-hide="isStarted || !isDestroyed">
+            <input type="text" class="form-control" data-ng-model="runtime.nodeName" placeholder="Enter a node name" data-ui-keypress="{13: 'start()'}" data-ui-event="runtimeNodeNameEvents" data-ng-disabled="processing">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" data-ng-click="start()" data-ng-disabled="processing">
+                Start from KevScript <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-offset-8" data-ng-show="isStarted && !isDestroyed">
+          <button class="btn btn-default pull-right" data-ng-click="merge()" data-ng-disabled="processing">
+            Merge locally <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
           </button>
-        </span>
+        </div>
       </div>
     </div>
-    <div class="col-xs-offset-8" data-ng-show="isStarted && !isDestroyed">
-      <button class="btn btn-default pull-right" data-ng-click="merge()" data-ng-disabled="processing">
-        Merge locally <i class="fa fa-cog" data-ng-show="processing" data-ng-class="(processing) ? 'fa-spin':''"></i>
-      </button>
-    </div>
-  </div>
+    <input id="kevscript-upload" type="file" class="hide" data-ng-model="kevscriptFile">
+
 </div>
-<input id="kevscript-upload" type="file" class="hide" data-ng-model="kevscriptFile">

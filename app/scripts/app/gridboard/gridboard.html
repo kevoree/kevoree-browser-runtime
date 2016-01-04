@@ -1,9 +1,9 @@
 <div data-gridster="gridsterOpts">
-    <div class="comp-tile-container" data-gridster-item="widget" data-ng-repeat="widget in widgets">
+    <div class="comp-tile-container" data-gridster-item="item" data-ng-repeat="item in gridItems">
         <div class="comp-tile-overlay comp-tile-overlay-hidden"></div>
         <div class="comp-tile-header">
-            <span class="name"><strong>{{ widget.name }}</strong></span>
+            <span class="name"><strong>{{ item.name }}</strong></span>
         </div>
-        <div class="comp-tile" data-comp-tile data-name="widget.name" data-path="widget.path"></div>
+        <div class="comp-tile" data-comp-tile data-name="item.name" data-path="item.path"></div>
     </div>
 </div>

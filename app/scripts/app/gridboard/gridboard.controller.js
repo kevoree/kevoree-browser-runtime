@@ -1,5 +1,8 @@
 angular.module('browserApp')
-  .controller('GridboardCtrl', function($scope, $timeout, $state, kCore) {
+  .factory('gridItems', function() {
+    return {};
+  })
+  .controller('GridboardCtrl', function($scope, $timeout, $state, kCore, gridItems) {
     function startDragOrResize(evt, elem) {
       angular.element('.comp-tile-overlay').removeClass('comp-tile-overlay-hidden');
     }
@@ -8,50 +11,59 @@ angular.module('browserApp')
       angular.element('.comp-tile-overlay').addClass('comp-tile-overlay-hidden');
     }
 
+    function updateInstances() {
+      $timeout(function() {
+        var instances = Object.keys(kCore.instances);
+
+        instances.forEach(function (path) {
+            if (!$scope.gridItems[path]) {
+                var elem = kCore.getCurrentModel().findByPath(path);
+                if (elem && elem.getRefInParent() === 'components') {
+                    $scope.gridItems[path] = {
+                      path: path,
+                      name: elem.name,
+                      sizeX: 1,
+                      sizeY: 1
+                    };
+                }
+            }
+        });
+
+        for (var path in $scope.gridItems) {
+            if (instances.indexOf(path) === -1) {
+                delete $scope.gridItems[path];
+            }
+        }
+      });
+    }
+
     $scope.gridsterOpts = {
       columns: 6,
       swapping: true,
       resizable: {
         handles: ['se'],
-        start: function (evt, elem) {
-            startDragOrResize(evt, elem);
-            elem.find('.comp-tile-overlay').css('cursor', 'se-resize');
+        start: function(evt, elem) {
+          startDragOrResize(evt, elem);
+          elem.find('.comp-tile-overlay').css('cursor', 'se-resize');
         },
-        stop: function (evt, elem) {
-            stopDragOrResize(evt, elem);
-            elem.find('.comp-tile-overlay').css('cursor', 'auto');
+        stop: function(evt, elem) {
+          stopDragOrResize(evt, elem);
+          elem.find('.comp-tile-overlay').css('cursor', 'auto');
         },
       },
       draggable: {
-          start: function (evt, elem) {
-              startDragOrResize(evt, elem);
-              elem.find('.comp-tile-overlay').css('cursor', 'move');
-          },
-          stop: function (evt, elem) {
-              stopDragOrResize(evt, elem);
-              elem.find('.comp-tile-overlay').css('cursor', 'auto');
-          },
+        start: function(evt, elem) {
+          startDragOrResize(evt, elem);
+          elem.find('.comp-tile-overlay').css('cursor', 'move');
+        },
+        stop: function(evt, elem) {
+          stopDragOrResize(evt, elem);
+          elem.find('.comp-tile-overlay').css('cursor', 'auto');
+        },
       }
     };
-    $scope.widgets = [];
 
-    function updateInstances() {
-      $scope.widgets.length = 0;
-      $timeout(function () {
-          Object.keys(kCore.instances).forEach(function(path) {
-            var elem = kCore.getCurrentModel().findByPath(path);
-            if (elem && elem.getRefInParent() === 'components') {
-              $scope.widgets.push({
-                path: path,
-                name: elem.name,
-                sizeX: 1,
-                sizeY: 1
-              });
-            }
-          });
-      });
-    }
-
+    $scope.gridItems = gridItems;
     if (!kCore.isDestroyed()) {
       $scope.nodeName = kCore.nodeName;
       updateInstances();
