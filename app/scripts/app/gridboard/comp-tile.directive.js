@@ -1,15 +1,12 @@
 angular.module('browserApp')
-  .directive('compTile', function($q, kCore, KevoreeResolver) {
+  .directive('compTile', function($q, kCore, KevoreeResolver, gridItems) {
     return {
       restrict: 'A',
       require: '^gridsterItem',
-      scope: {
-        name: '=',
-        path: '='
-      },
+      scope: { compTile: '=' },
       link: function(scope, elem, attrs, ctrl) {
         $q(function(resolve) {
-          var comp = kCore.getCurrentModel().findByPath(scope.path);
+          var comp = kCore.getCurrentModel().findByPath(scope.compTile);
           var depU = comp.typeDefinition
             .select('deployUnits[name=*]/filters[name=platform,value=javascript]')
             .get(0)
@@ -25,8 +22,10 @@ angular.module('browserApp')
             .resolveUI(obj.depU)
             .then(function(ui) {
               if (ui.html && ui.styles && ui.scripts && ui.depModules) {
-                ctrl.setSizeX(ui.layout.width);
-                ctrl.setSizeY(ui.layout.height);
+                if (!gridItems[scope.compTile].resized) {
+                    ctrl.setSizeX(ui.layout.width);
+                    ctrl.setSizeY(ui.layout.height);
+                }
 
                 window.comps = window.comps || {};
                 window.comps[obj.comp.path()] = {

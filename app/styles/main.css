@@ -198,16 +198,15 @@ pre {
     padding: 2px 5px;
     color: #ccc;
     border-bottom: 1px solid #ccc;
+    width: 100%;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .comp-tile-header:hover {
     cursor: move;
-}
-
-.comp-tile-header .name {
-    width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .comp-tile {

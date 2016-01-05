@@ -22,6 +22,7 @@ angular.module('browserApp')
                     $scope.gridItems[path] = {
                       path: path,
                       name: elem.name,
+                      type: elem.typeDefinition.name,
                       sizeX: 1,
                       sizeY: 1
                     };
@@ -46,9 +47,10 @@ angular.module('browserApp')
           startDragOrResize(evt, elem);
           elem.find('.comp-tile-overlay').css('cursor', 'se-resize');
         },
-        stop: function(evt, elem) {
+        stop: function(evt, elem, item) {
           stopDragOrResize(evt, elem);
           elem.find('.comp-tile-overlay').css('cursor', 'auto');
+          item.resized = true;
         },
       },
       draggable: {

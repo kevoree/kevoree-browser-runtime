@@ -194,7 +194,16 @@ angular.module('browserApp')
                                 $http
                                     .get('http://localhost:59000/'+deployUnit.name+'/'+deployUnit.version+'/'+deployUnit.name+'.html')
                                     .then(function (res) {
-                                        resolve({ html: res.data, scripts: [], styles: [], depModules: [] });
+                                        resolve({
+                                            html: res.data,
+                                            scripts: [],
+                                            styles: [],
+                                            depModules: [],
+                                            layout: {
+                                                width: 1,
+                                                height: 1
+                                            }
+                                        });
                                     }, function () {
                                         resolveProcess(resolve, reject);
                                     });
