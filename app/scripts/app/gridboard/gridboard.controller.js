@@ -73,7 +73,6 @@ angular.module('browserApp')
         },
       }
     };
-
     $scope.gridItems = gridItems;
 
     if (!kCore.isDestroyed()) {

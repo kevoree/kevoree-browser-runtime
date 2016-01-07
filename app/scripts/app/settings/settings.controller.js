@@ -26,7 +26,7 @@ angular.module('browserApp')
           Notification.success({
             title: 'Kevoree Registry',
             message: 'Changed to:\n<strong>' + $scope.registryUrl + '</strong>',
-            delay: 150000
+            delay: 3000
           });
         } catch (err) {
           Notification.error({
