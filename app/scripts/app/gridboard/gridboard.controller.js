@@ -38,9 +38,18 @@ angular.module('browserApp')
       });
     }
 
+    $scope.hasGridItems = function () {
+        return Object.keys(gridItems).length > 0;
+    };
+
+    $scope.removeTile = function (item) {
+        delete $scope.gridItems[item.path];
+    };
+
     $scope.gridsterOpts = {
       columns: 6,
       swapping: true,
+      mobileBreakPoint: 1000,
       resizable: {
         handles: ['se'],
         start: function(evt, elem) {
@@ -66,6 +75,7 @@ angular.module('browserApp')
     };
 
     $scope.gridItems = gridItems;
+
     if (!kCore.isDestroyed()) {
       $scope.nodeName = kCore.nodeName;
       updateInstances();

@@ -1,29 +1,39 @@
 <div class="inner-container">
-    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well" data-ng-cloak>
-      <h4>Browser Runtime settings:</h4>
-      <ul class="list-group list-group-with-buttons">
-        <li class="list-group-item">
-          <strong>Version</strong>
-          <span class="pull-right">{{ VERSION }}</span>
-        </li>
-        <li class="list-group-item">
-          <strong>KevScript cache</strong>
-          <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearKevSCache()" data-ng-disabled="isKevSCacheEmpty()">Clear</button>
-        </li>
-        <li class="list-group-item">
-          <strong>DeployUnits cache</strong>
-          <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearDUsCache()" data-ng-disabled="isDUsCacheEmpty || readingCache">
-            {{ clearDUCacheName }} <i class="fa fa-cog" data-ng-show="readingCache" data-ng-class="(readingCache) ? 'fa-spin':''"></i>
-          </button>
-        </li>
-        <li class="list-group-item">
-          <strong>Dev mode</strong>
-          <span class="pull-right">
-            <button class="btn btn-sm btn-primary" data-ng-click="enableDevMode()" data-ng-hide="devMode">Enable</button>
-            <button class="btn btn-sm btn-warning" data-ng-click="disableDevMode()" data-ng-show="devMode">Disable</button>
-          </span>
-        </li>
-      </ul>
-    </div>
-
+  <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well" data-ng-cloak>
+    <h4>Browser Runtime settings:</h4>
+    <ul class="list-group list-group-with-buttons">
+      <li class="list-group-item">
+        <strong>Version</strong>
+        <span class="pull-right">{{ VERSION }}</span>
+      </li>
+      <li class="list-group-item clearfix">
+        <strong>Kevoree Registry</strong>
+        <div class="col-sm-5 col-lg-4 pull-right" style="padding: 0">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="ie. {{ REGISTRY_URL }}" data-ng-model="registryUrl">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" data-ng-click="changeKevoreeRegistry()" data-ng-disabled="!canChangeKevoreeRegistry()">Save</button>
+              </span>
+            </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <strong>KevScript cache</strong>
+        <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearKevSCache()" data-ng-disabled="isKevSCacheEmpty()">Clear</button>
+      </li>
+      <li class="list-group-item">
+        <strong>DeployUnits cache</strong>
+        <button class="btn btn-sm btn-warning pull-right" data-ng-click="clearDUsCache()" data-ng-disabled="isDUsCacheEmpty || readingCache">
+          {{ clearDUCacheName }} <i class="fa fa-cog" data-ng-show="readingCache" data-ng-class="(readingCache) ? 'fa-spin':''"></i>
+        </button>
+      </li>
+      <li class="list-group-item">
+        <strong>Dev mode</strong>
+        <span class="pull-right">
+          <button class="btn btn-sm btn-primary" data-ng-click="enableDevMode()" data-ng-hide="devMode">Enable</button>
+          <button class="btn btn-sm btn-warning" data-ng-click="disableDevMode()" data-ng-show="devMode">Disable</button>
+        </span>
+      </li>
+    </ul>
+  </div>
 </div>

@@ -20,11 +20,12 @@ angular
         'ui-notification',
         'gridster'
     ])
-    .run(function ($rootScope, $window, kCore, randomId, WS_HOST, WS_PORT, VERSION) {
+    .run(function ($rootScope, $window, kCore, randomId, WS_HOST, WS_PORT, VERSION, REGISTRY_URL) {
         $rootScope.VERSION = VERSION;
-        $rootScope.APP_ID = randomId.gen();
+        $rootScope.APP_ID = randomId();
         $rootScope.WS_HOST = WS_HOST;
         $rootScope.WS_PORT = WS_PORT;
+        $rootScope.REGISTRY_URL = REGISTRY_URL;
 
         var bootstrapContainer = angular.element('#bootstrap-container');
         bootstrapContainer.fadeOut(function () {

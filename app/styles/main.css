@@ -17,7 +17,7 @@ body {
   margin-top: 54px;
 }
 .inner-container {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 #kevscript-editor {
   margin-top: 15px;
@@ -104,7 +104,6 @@ body {
   white-space: nowrap;
   cursor: default;
 }
-
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
@@ -128,9 +127,8 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
   }
-
   .main > div {
-      border-bottom: 2px solid #e3e3e3;
+    border-bottom: 2px solid #e3e3e3;
   }
 }
 @media (max-width: 767px) {
@@ -154,11 +152,9 @@ body {
     padding-right: 0;
   }
 }
-
 .modal-dialog {
   margin-top: 85px;
 }
-
 pre {
   display: block;
   padding: 0;
@@ -172,50 +168,78 @@ pre {
   border: none;
   border-radius: inherit;
 }
-
 .comp-tile-container {
-    border: 1px solid #222;
-    border-radius: 4px;
-    background-color: #222;
+  border: 1px solid #222;
+  border-radius: 4px;
+  background-color: #222;
 }
-
 .comp-tile-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    /*background-color: rgba(0, 0, 0, 0.1);*/
-    z-index: 1000;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /*background-color: rgba(0, 0, 0, 0.1);*/
+  z-index: 1000;
 }
-
 .comp-tile-overlay-hidden {
-    display: none;
+  display: none;
 }
-
 .comp-tile-header {
-    height: 25px;
-    padding: 2px 5px;
-    color: #ccc;
-    border-bottom: 1px solid #ccc;
-    width: 100%;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  height: 25px;
+  padding: 2px 5px;
+  color: #ccc;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 .comp-tile-header:hover {
-    cursor: move;
+  cursor: move;
 }
-
 .comp-tile {
-    position: absolute;
-    top: 28px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    background-color: #fff;
+  position: absolute;
+  top: 28px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #fff;
+}
+.gridster-mobile .comp-tile {
+  position: inherit;
+}
+.gridster-mobile .comp-tile-header:hover {
+  cursor: inherit;
+}
+.gridster-mobile .tile-dropdown-container {
+  display: none;
+}
+.tile-dropdown-container {
+  position: absolute;
+  top: 0;
+  right: 2px;
+}
+.tile-btn {
+  background-color: #222;
+  padding: 0 5px;
+  border: 1px solid #666;
+}
+.tile-btn:hover, .tile-btn:focus, .tile-btn:active {
+  color: #fff;
+}
+.tile-dropdown-menu {
+  border-radius: 0;
+  background-color: #222;
+  min-width: 120px;
+  border: 1px solid #666;
+}
+.tile-dropdown-menu > li > a {
+  color: #ccc;
+}
+.message {
+  word-break: break-word;
 }
 
 /* Angular-ui ui-bootstrap CSS trick http://angular-ui.github.io/bootstrap/#/getting_started  */

@@ -211,7 +211,8 @@ module.exports = function (grunt) {
           WS_HOST: 'ws.kevoree.org',
           WS_PORT: '80',
           MODULES_PATH: '_fake_dir_',
-          NPM_REGISTRY_URL: 'http://registry.npmjs.org/{name}/-/{name}-{version}.tgz'
+          NPM_REGISTRY_URL: 'http://registry.npmjs.org/{name}/-/{name}-{version}.tgz',
+          REGISTRY_URL: 'http://registry.kevoree.org'
         }
       }
     },

@@ -1,9 +1,22 @@
+<div class="inner-container" data-ng-if="!hasGridItems()">
+  <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well">No available component UIs</div>
+</div>
 <div data-gridster="gridsterOpts">
-    <div class="comp-tile-container" data-gridster-item="item" data-ng-repeat="item in gridItems">
-        <div class="comp-tile-overlay comp-tile-overlay-hidden"></div>
-        <div class="comp-tile-header" title="{{ item.name + ' - ' + item.type }}">
-            {{ item.name + ' - ' + item.type }}
-        </div>
-        <div class="comp-tile" data-comp-tile="item.path"></div>
+  <div class="comp-tile-container" data-gridster-item="item" data-ng-repeat="item in gridItems">
+    <div class="comp-tile-overlay comp-tile-overlay-hidden"></div>
+    <div class="comp-tile-header">
+      <span title="{{ item.name + ' - ' + item.type }}">{{ item.name + ' - ' + item.type }}</span>
+      <div class="tile-dropdown-container pull-right">
+        <button class="btn btn-xs tile-btn dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="tile-dropdown-menu dropdown-menu">
+          <li>
+              <a href data-ng-click="removeTile(item)">Remove tile</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="comp-tile" data-comp-tile="item.path"></div>
+  </div>
 </div>

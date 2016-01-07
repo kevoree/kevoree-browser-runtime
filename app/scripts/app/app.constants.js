@@ -3,7 +3,7 @@ angular.module('browserApp')
 
 .constant('APP_NAME', 'BrowserRuntime')
 
-.constant('VERSION', '1.5.0')
+.constant('VERSION', '1.6.0')
 
 .constant('GROUP_NAME', 'sync')
 
@@ -14,5 +14,7 @@ angular.module('browserApp')
 .constant('MODULES_PATH', '_fake_dir_')
 
 .constant('NPM_REGISTRY_URL', 'http://registry.npmjs.org/{name}/-/{name}-{version}.tgz')
+
+.constant('REGISTRY_URL', 'http://registry.kevoree.org')
 
 ;
